@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CS361 Group Project: Expert Finder</title>
+	<meta charset="UTF-8">
+  <link href="../styles/stylesheet.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	{{#each jsscripts}}
+		<script src="/static/scripts/{{this}}">
+		</script>
+	{{/each}}
+</head>
+
+<body>
+  {{!-- this is at top of every page --}}
+	<nav>
+		{{!-- add Navbar content --}}
+	</nav>
+
+	{{{body}}}
+</body>
+
+</html>
