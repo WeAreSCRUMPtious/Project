@@ -27,7 +27,6 @@
         <th>Linkedin Link</th>
         <th>Twitter Link</th>
       </tr>
-
       {{#each profile}}
         <tr>
           <td>{{profile_id}}</td>
@@ -38,7 +37,22 @@
           <td>{{github_link}}</td>
           <td>{{linkedin_link}}</td>
           <td>{{twitter_link}}</td>
+          <td>{{course_name}}</td>
+          <td>{{skill_name}}</td>
         </tr>
       {{/each}}
     </tbody>
   </table>
+
+  <!-- <h2> List of courses: </h2>
+  {{#each courses}}
+    <ul>
+      <li>{{course_name}}</li>
+    </ul>
+  {{/each}}
+  <h2> List of skills </h2>
+  {{#each skills}}
+    <ul>
+      <li>{{skill_name}}</li>
+    </ul>
+  {{/each}} -->
