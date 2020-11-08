@@ -21,9 +21,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use('/static', express.static('public'));
 //app.use('/profile', require('./routes/profile.js'));
 
+//THIS WORKS TO GET ALL PROFILE TABLE ROWS
+// function getProfile(res, mysql, context, complete){
+//      mysql.pool.query("SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM profiles", function(error, results, fields){
+//          if(error){
+//              res.write(JSON.stringify(error));
+//              res.end();
+//          }
+//          context.profile  = results;
+//          complete();
+//      });
+//    }
 
-function getProfile(res, mysql, context, complete){
-     mysql.pool.query("SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM profiles", function(error, results, fields){
+function getProfile(res, req, mysql, context, complete){
+     var sql = "SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM profiles WHERE profile_id=?";
+     var selectedId = req.params.id;
+     mysql.pool.query(sql, selectedId, function(error, results, fields){
          if(error){
              res.write(JSON.stringify(error));
              res.end();
@@ -32,6 +45,7 @@ function getProfile(res, mysql, context, complete){
          complete();
      });
    }
+
 
 app.get('/', (req, res) => {
    res.redirect('homepage');
@@ -68,17 +82,32 @@ app.get('/profile', (req, res) => {
 //    res.render('profiledetail',context.profile.profile_id);
 // });
 
+//THIS WORKS TO GET ALL PROFILE TABLE ROWS
+// app.get('/profile/:id', function(req, res){
+//         var callbackCount = 0;
+//         var context = {};
+//         var mysql = req.app.get('mysql');
+//         getProfile(res, mysql, context, complete);
+//         function complete(){
+//             callbackCount++;
+//             if(callbackCount >= 1){
+//               res.render('profiledetail', context);
+//             }
+//
+//         }
+// });
+
 app.get('/profile/:id', function(req, res){
         var callbackCount = 0;
         var context = {};
         var mysql = req.app.get('mysql');
-        getProfile(res, mysql, context, complete);
+        //var selection = req.params.id;
+        getProfile(res, req, mysql, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 1){
               res.render('profiledetail', context);
             }
-
         }
 });
 
