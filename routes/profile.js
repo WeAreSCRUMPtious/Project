@@ -49,6 +49,23 @@ module.exports = function(){
       });
     });
 
+    router.get('/:id', function(req, res){
+      var mysql = req.app.get('mysql');
+      var sql = "SELECT * FROM profiles WHERE profile_id = ?";
+      var selection = [req.params.id];
+
+      sql = mysql.pool.query(sql, selection, function(error, results, fields){
+          if(error){
+              console.log(error)
+              res.write(JSON.stringify(error));
+              res.status(400);
+              res.end();
+          }else{
+              res.status(202).end();
+          }
+      })
+    });
+
     router.delete('/:id', function(req, res){
       var mysql = req.app.get('mysql');
       var sql = "DELETE FROM profiles WHERE profile_id = ?";
