@@ -2,24 +2,39 @@ module.exports = function(){
     var express = require('express');
     var router = express.Router();
 
-    router.get('/', function(req, res){
-         var callbackCount = 0;
-         var context = {};
+    function getProfile(res, mysql, selection, context, complete){
 
-        // TODO: Add scripts we may need later here
-        // context.jsscripts = ["<script-name-here.js>];
+      var sql = "SELECT profile_id, name, skills, courses, industry, github_link, linkedin_link, twitter_link FROM profiles WHERE profile_id=?"
+      var selectionId = selection;
 
-         var mysql = req.app.get('mysql');
+       mysql.pool.query(sql,selectionId,function(error, results, fields){
+           if(error){
+               res.write(JSON.stringify(error));
+               res.end();
+           }
+           context.profile = results;
+           complete();
+       });
+   }
 
-         getProfile(res, mysql, context, complete);
-
-         function complete(){
-             callbackCount++;
-             if(callbackCount >= 1){
-                 res.render('profiles', context);
-             }
-         }
-     });
+    // router.get('/', function(req, res){
+    //      var callbackCount = 0;
+    //      var context = {};
+    //
+    //     // TODO: Add scripts we may need later here
+    //     // context.jsscripts = ["<script-name-here.js>];
+    //
+    //      var mysql = req.app.get('mysql');
+    //
+    //      getProfile(res, mysql, context, complete);
+    //
+    //      function complete(){
+    //          callbackCount++;
+    //          if(callbackCount >= 1){
+    //              res.render('profiles', context);
+    //          }
+    //      }
+    //  });
 
      router.post('/', function(req, res){
 
@@ -44,44 +59,43 @@ module.exports = function(){
          res.write(JSON.stringify(error));
          res.end();
        }else{
-         res.redirect('/profiles');
+         res.redirect('/');
        }
       });
     });
 
     router.get('/:id', function(req, res){
       var mysql = req.app.get('mysql');
-      var sql = "SELECT * FROM profiles WHERE profile_id = ?";
-      var selection = [req.params.id];
+      var selection = req.params.id;
 
-      sql = mysql.pool.query(sql, selection, function(error, results, fields){
-          if(error){
-              console.log(error)
-              res.write(JSON.stringify(error));
-              res.status(400);
-              res.end();
-          }else{
-              res.status(202).end();
-          }
-      })
-    });
-
-    router.delete('/:id', function(req, res){
+      var callbackCount = 0;
+      var context = {};
       var mysql = req.app.get('mysql');
-      var sql = "DELETE FROM profiles WHERE profile_id = ?";
-      var deletions = [req.params.id];
 
-      sql = mysql.pool.query(sql, deletions, function(error, results, fields){
-          if(error){
-              console.log(error)
-              res.write(JSON.stringify(error));
-              res.status(400);
-              res.end();
-          }else{
-              res.status(202).end();
-          }
-      })
+      getProfile(res, mysql, selection, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 1){
+                res.render('profile', context);
+        }
     });
+
+    // router.delete('/:id', function(req, res){
+    //   var mysql = req.app.get('mysql');
+    //   var sql = "DELETE FROM profiles WHERE profile_id = ?";
+    //   var deletions = [req.params.id];
+    //
+    //   sql = mysql.pool.query(sql, deletions, function(error, results, fields){
+    //       if(error){
+    //           console.log(error)
+    //           res.write(JSON.stringify(error));
+    //           res.status(400);
+    //           res.end();
+    //       }else{
+    //           res.status(202).end();
+    //       }
+    //   })
+    // });
 
     return router;
 }();
