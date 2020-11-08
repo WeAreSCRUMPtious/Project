@@ -19,15 +19,25 @@
     <tbody>
       <tr>
         <th>Profile ID</th>
-        <th>Name</th>
-        <th>Skills</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Industry</th>
+        <th>Github Link</th>
+        <th>Linkedin Link</th>
+        <th>Twitter Link</th>
       </tr>
 
       {{#each profile}}
         <tr>
           <td>{{profile_id}}</td>
-          <td>{{name}}</td>
-          <td>{{skills}}</td>
+          <td>{{first_name}}</td>
+          <td>{{last_name}}</td>
+          <td>{{email}}</td>
+          <td>{{industry}}</td>
+          <td>{{github_link}}</td>
+          <td>{{linkedin_link}}</td>
+          <td>{{twitter_link}}</td>
         </tr>
       {{/each}}
     </tbody>

@@ -33,8 +33,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //      });
 //    }
 
+/** Works with fields in KM database:
 function getProfile(res, req, mysql, context, complete){
-     var sql = "SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM profiles WHERE profile_id=?";
+     var sql = "SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles WHERE profile_id=?";
      var selectedId = req.params.id;
      mysql.pool.query(sql, selectedId, function(error, results, fields){
          if(error){
@@ -45,7 +46,21 @@ function getProfile(res, req, mysql, context, complete){
          complete();
      });
    }
+**/
 
+/** Attempting to work with fields in Jeff's DB: **/
+function getProfile(res, req, mysql, context, complete){
+     var sql = "SELECT profile_id as profile_id, first_name as first_name, last_name as last_name, email as email, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles WHERE profile_id=?";
+     var selectedId = req.params.id;
+     mysql.pool.query(sql, selectedId, function(error, results, fields){
+         if(error){
+             res.write(JSON.stringify(error));
+             res.end();
+         }
+         context.profile  = results;
+         complete();
+     });
+  }
 
 app.get('/', (req, res) => {
    res.redirect('homepage');
