@@ -12,26 +12,27 @@ SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE Profiles
 (
     profile_id      int(11)      NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    profile_pic     varchar(255),
     first_name      varchar(255) NOT NULL,
     last_name       varchar(255) NOT NULL,
     email           varchar(255) NOT NULL,
     industry        varchar(255) NOT NULL,
     github_link     varchar(255),
     linkedin_link   varchar(255),
-    twitter_link    varchar(255),
+    twitter_link    varchar(255)
 ) ENGINE = InnoDB;
 
 CREATE TABLE Skills
 (
     skill_id     int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    skill_name   varchar(255) NOT NULL,
+    skill_name   varchar(255) NOT NULL
 ) ENGINE = InnoDB;
 
 
 CREATE TABLE Courses
 (
     course_id   int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    course_name varchar(255) NOT NULL,
+    course_name varchar(255) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE Profiles_Skills
@@ -56,8 +57,10 @@ CREATE TABLE Profiles_Courses
 
 # Sample Data to insert
 INSERT INTO Profiles (first_name, last_name, email, industry, github_link, linkedin_link, twitter_link)
-VALUES (    'Joe', 'Doe', 'joedoetest@oregonstate.edu', 'Oregon State University', 'https://github.com/JoeDoeOSUTest',
-            'https://www.linkedin.com/in/joe-doe-OSU-test/', 'https://twitter.com/JoeDoeOSUTest');
+VALUES      (NULL, 'Joe', 'Doe', 'joedoetest@oregonstate.edu', 'Oregon State University', 'https://github.com/JoeDoeOSUTest',
+            'https://www.linkedin.com/in/joe-doe-OSU-test/', 'https://twitter.com/JoeDoeOSUTest'),
+            (NULL, 'Jane', 'Doe', 'janedoetest@oregonstate.edu', 'Oregon State University', 'https://github.com/JaneDoeOSUTest',
+            'https://www.linkedin.com/in/jane-doe-OSU-test/', 'https://twitter.com/JaneDoeOSUTest');
 
 INSERT INTO Skills (skill_name)
 VALUES  ('Python'),
@@ -83,9 +86,22 @@ INSERT INTO Profiles_Skills(profile_id, skill_id)
 VALUES  (1, 1),
         (1, 3),
         (1, 4),
-        (1, 5);
+        (1, 5),
+        (2, 2),
+        (2, 3),
+        (2, 4),
+        (2, 5),
+        (2, 6),
+        (2, 7),
+        (2, 8);
 
 INSERT INTO Profiles_Courses(profile_id, course_id)
 VALUES  (1, 1),
         (1, 2),
-        (1, 4);
+        (1, 4),
+        (2, 1),
+        (2, 2),
+        (2, 4),
+        (2, 5),
+        (2, 6),
+        (2, 8);
