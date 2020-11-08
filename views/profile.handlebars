@@ -1,1 +1,29 @@
-<h1> profile.handlebars renders! </h1>
+
+<h1> View All Profiles: </h1>
+  <table id="table">
+    <tbody>
+      <tr>
+        <th>Profile ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Industry</th>
+        <th>Github Link</th>
+        <th>Linkedin Link</th>
+        <th>Twitter Link</th>
+      </tr>
+
+      {{#each profile}}
+        <tr>
+          <td>{{profile_id}}</td>
+          <td>{{first_name}}</td>
+          <td>{{last_name}}</td>
+          <td>{{email}}</td>
+          <td>{{industry}}</td>
+          <td>{{github_link}}</td>
+          <td>{{linkedin_link}}</td>
+          <td>{{twitter_link}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>

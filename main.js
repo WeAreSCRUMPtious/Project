@@ -21,20 +21,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use('/static', express.static('public'));
 //app.use('/profile', require('./routes/profile.js'));
 
-//THIS WORKS TO GET ALL PROFILE TABLE ROWS
-// function getProfile(res, mysql, context, complete){
-//      mysql.pool.query("SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM profiles", function(error, results, fields){
-//          if(error){
-//              res.write(JSON.stringify(error));
-//              res.end();
-//          }
-//          context.profile  = results;
-//          complete();
-//      });
-//    }
+/** Get all Expert Profiles  **/
+function getProfileAll(res, mysql, context, complete){
+     mysql.pool.query("SELECT profile_id as profile_id, first_name as first_name, last_name as last_name, email as email, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles", function(error, results, fields){
+         if(error){
+             res.write(JSON.stringify(error));
+             res.end();
+         }
+         context.profile  = results;
+         complete();
+     });
+   }
 
+/** Get a selected profile based on a given profile_id **/
 /** Works with fields in KM database:
-function getProfile(res, req, mysql, context, complete){
+function getProfileSelected(res, req, mysql, context, complete){
      var sql = "SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles WHERE profile_id=?";
      var selectedId = req.params.id;
      mysql.pool.query(sql, selectedId, function(error, results, fields){
@@ -48,8 +49,9 @@ function getProfile(res, req, mysql, context, complete){
    }
 **/
 
-/** Attempting to work with fields in Jeff's DB: **/
-function getProfile(res, req, mysql, context, complete){
+/** Get a selected profile based on a given profile_id **/
+/** Works with fields in Jeff's DB: **/
+function getProfileSelected(res, req, mysql, context, complete){
      var sql = "SELECT profile_id as profile_id, first_name as first_name, last_name as last_name, email as email, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles WHERE profile_id=?";
      var selectedId = req.params.id;
      mysql.pool.query(sql, selectedId, function(error, results, fields){
@@ -74,50 +76,28 @@ app.get('/profile', (req, res) => {
    res.render('profile');
 });
 
-// app.get('/profile/:id', (req, res) => {
-//   var selection = req.params.id;
-//   var context = {};
-//   var sql = "SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM profiles WHERE profile_id=?"
-//   console.log(sql);
-//   mysql.pool.query(sql,selection,function(error, results, fields){
-//             if(error){
-//                 res.write(JSON.stringify(error));
-//                 res.end();
-//             }
-//             // console.log("These are results:")
-//             // console.log(results);
-//             console.log("Results[0].profile_id:")
-//             console.log(results[0].profile_id);
-//             context.profile = results[0];
-//             console.log("This is context.profile.profile_id");
-//             console.log(context.profile.profile_id);
-//             // console.log("This is context.profile object:")
-//             // console.log(context.profile);
-//     });
-//    res.render('profiledetail',context.profile.profile_id);
-// });
+/** Route to get all Expert profiles **/
+app.get('/profile/all', function(req, res){
+    var callbackCount = 0;
+    var context = {};
+    var mysql = req.app.get('mysql');
+    getProfileAll(res, mysql, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 1){
+              res.render('profile', context);
+            }
 
-//THIS WORKS TO GET ALL PROFILE TABLE ROWS
-// app.get('/profile/:id', function(req, res){
-//         var callbackCount = 0;
-//         var context = {};
-//         var mysql = req.app.get('mysql');
-//         getProfile(res, mysql, context, complete);
-//         function complete(){
-//             callbackCount++;
-//             if(callbackCount >= 1){
-//               res.render('profiledetail', context);
-//             }
-//
-//         }
-// });
+        }
+});
 
+/** Route to get selected Expert Profile details based on profile_id **/
 app.get('/profile/:id', function(req, res){
         var callbackCount = 0;
         var context = {};
         var mysql = req.app.get('mysql');
         //var selection = req.params.id;
-        getProfile(res, req, mysql, context, complete);
+        getProfileSelected(res, req, mysql, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 1){
