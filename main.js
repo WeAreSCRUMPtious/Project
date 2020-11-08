@@ -33,6 +33,13 @@ app.get('/profile', (req, res) => {
    res.render('profile');
 });
 
+app.get('/profile/:id', (req, res) => {
+  var selection = req.params.id;
+  var context = {};
+  context.selectedId = selection;
+   res.render('profiledetail',context);
+});
+
 app.use((err, req, res, next) => {
   const { stack } = err;
   console.error(stack);
