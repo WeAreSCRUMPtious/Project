@@ -20,12 +20,27 @@ SELECT * FROM Profiles_Skills PS
     INNER JOIN Courses C on PC.course_id = C.course_id
     WHERE PS.profile_id = 1;
 
+-- Pull Full Profile by ID
+SELECT * FROM Profiles
+WHERE profile_id = 1; -- This would need to be passed the profile ID variable
+
 -- Show Skills tied to a profile
+-- Gives list of skills to display on profile page
 SELECT skill_name FROM Skills S
     INNER JOIN Profiles_Skills PS ON S.skill_id = PS.skill_id
     Where PS.profile_id = 1; --Add variable here
 
 -- Show Courses tied to a profile
+-- Gives list of courses to display on profile page
 SELECT course_name FROM Courses C
 INNER JOIN Profiles_Courses PC ON C.course_id = PC.course_id
 Where PC.profile_id = 1; --Add variable here
+
+-- Search for Profiles with Skill/Course - No specification
+SELECT * from Profiles P
+INNER JOIN Profiles_Skills PS ON P.profile_id = PS.profile_id
+INNER JOIN Skills S ON PS.skill_id = S.skill_id
+INNER JOIN Profiles_Courses PC ON P.profile_id = PC.profile_id
+INNER JOIN Courses C ON PC.course_id = C.course_id
+WHERE S.skill_name = "CS162" OR C.course_name = "CS162" --Values here would be searched term
+GROUP BY P.profile_id;
