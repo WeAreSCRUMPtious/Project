@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Profile ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+    </thead>
+        {{#each expert}}
+            <tr>
+                <td>{{this.profile_id}}</td>
+                <td>{{this.first_name}}</td>
+                <td>{{this.last_name}}</td>
+            </tr>
+        {{/each}}
+</table>
