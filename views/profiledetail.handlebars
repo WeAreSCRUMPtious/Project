@@ -1,2 +1,34 @@
-<h1> profiledetail.handlebars renders </h1>
-<p> Selected Id is: {{selectedId}} </p>
+<!-- <h1> profiledetail.handlebars renders </h1>
+<p> Selected Id is: {{selectedId}} </p> -->
+
+<!-- <html>
+<p> Profile for profile id: {{profile.profile_id}} </p>
+<p> Profile for profile id: {{context.profile.profile_id}} </p>
+<p> Profile for name: {{profile.name}} </p>
+<p> Skills: {{profile.skills}} </p>
+<p> Courses: {{profile.courses}} </p>
+<p> Industry: {{profile.industry}} </p>
+<p> GitHub Link: {{profile.github_link}} </p>
+<p> LinkedIn Link: {{profile.linkedin_link}} </p>
+<p> Twitter Link: {{profile.twitter_link}} </p>
+</html> -->
+
+
+<h1> View Profile: </h1>
+  <table id="table">
+    <tbody>
+      <tr>
+        <th>Profile ID</th>
+        <th>Name</th>
+        <th>Skills</th>
+      </tr>
+
+      {{#each profile}}
+        <tr>
+          <td>{{profile_id}}</td>
+          <td>{{name}}</td>
+          <td>{{skills}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>

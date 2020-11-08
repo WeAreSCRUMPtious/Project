@@ -71,7 +71,7 @@
 //
 // // PENDING DB: replace router.get with below once DB connected
 // /**
-//     router.get('/prfile/:id', function(req, res){
+//     router.get('/profile/:id', function(req, res){
 //       var mysql = req.app.get('mysql');
 //       var selection = req.params.id;
 //
