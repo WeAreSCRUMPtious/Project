@@ -56,7 +56,7 @@ CREATE TABLE Profiles_Courses
 
 
 # Sample Data to insert
-INSERT INTO Profiles (first_name, last_name, email, industry, github_link, linkedin_link, twitter_link)
+INSERT INTO Profiles (profile_pic, first_name, last_name, email, industry, github_link, linkedin_link, twitter_link)
 VALUES      (NULL, 'Joe', 'Doe', 'joedoetest@oregonstate.edu', 'Oregon State University', 'https://github.com/JoeDoeOSUTest',
             'https://www.linkedin.com/in/joe-doe-OSU-test/', 'https://twitter.com/JoeDoeOSUTest'),
             (NULL, 'Jane', 'Doe', 'janedoetest@oregonstate.edu', 'Oregon State University', 'https://github.com/JaneDoeOSUTest',
