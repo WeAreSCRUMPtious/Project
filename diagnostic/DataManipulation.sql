@@ -1,5 +1,8 @@
 -- Queries that are used on our website for user interaction.
 
+-- Insert a Profile
+
+
 -- Insert a Skill
 INSERT INTO Skills (skill_name)
     SELECT '{skill}'
