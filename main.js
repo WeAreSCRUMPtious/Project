@@ -17,6 +17,7 @@ app.set('view engine', 'handlebars');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+/** For use in future sprints to refactor to use Router **/
 //app.use('/', express.static('public'));
 //app.use('/static', express.static('public'));
 //app.use('/profile', require('./routes/profile.js'));
@@ -33,59 +34,10 @@ function getProfileAll(res, mysql, context, complete){
      });
    }
 
-/** Get a selected profile based on a given profile_id **/
-/** Works with fields in KM database:
-function getProfileSelected(res, req, mysql, context, complete){
-     var sql = "SELECT profile_id as profile_id, name as name, skills as skills, courses as courses, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles WHERE profile_id=?";
-     var selectedId = req.params.id;
-     mysql.pool.query(sql, selectedId, function(error, results, fields){
-         if(error){
-             res.write(JSON.stringify(error));
-             res.end();
-         }
-         context.profile  = results;
-         complete();
-     });
-   }
-**/
-
-// /** Get a selected profile based on a given profile_id **/
-// /** Works with fields in Jeff's old DB: **/
-// function getProfileSelected(res, req, mysql, context, complete){
-//      var sql = "SELECT profile_id as profile_id, first_name as first_name, last_name as last_name, email as email, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles WHERE profile_id=?";
-//      var selectedId = req.params.id;
-//      mysql.pool.query(sql, selectedId, function(error, results, fields){
-//          if(error){
-//              res.write(JSON.stringify(error));
-//              res.end();
-//          }
-//          context.profile  = results;
-//          complete();
-//      });
-//   }
-
-
-//This works but displays many dubplicate rows
-// // Trying to get all profile fields with one query
-//  function getProfileSelected(res, req, mysql, context, complete){
-//      var selectedId = req.params.id;
-//      var sql = "SELECT * FROM Profiles_Skills PS INNER JOIN Profiles P on PS.profile_id = P.profile_id INNER JOIN Skills S on PS.skill_id = S.skill_id INNER JOIN Profiles_Courses PC on P.profile_id = PC.profile_id INNER JOIN Courses C on PC.course_id = C.course_id WHERE PS.profile_id = ?;";
-//      mysql.pool.query(sql, selectedId, function(error, results, fields){
-//          if(error){
-//              res.write(JSON.stringify(error));
-//              res.end();
-//          }
-//
-//          context.profile  = results;
-//          complete();
-//      });
-//   }
-
-// Trying query to get all profile fields with multiple queries
+/** Obtain detailed profile fields for specific profile_id including profile_id, profile_pic, first_name, last_name, email, industry, github_link, linkedin_link, twitter_link **/
 function getProfileSelectedDetails(res, req, mysql, context, complete){
-    //does not work - duplicates data: var sql = "SELECT * FROM Profiles_Skills PS INNER JOIN Profiles P on PS.profile_id = P.profile_id INNER JOIN Skills S on PS.skill_id = S.skill_id INNER JOIN Profiles_Courses PC on P.profile_id = PC.profile_id INNER JOIN Courses C on PC.course_id = C.course_id WHERE PS.profile_id = 1;";
      var selectedId = req.params.id;
-     var sql1 = "SELECT profile_id as profile_id, first_name as first_name, last_name as last_name, email as email, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles WHERE profile_id=?";
+     var sql1 = "SELECT profile_id as profile_id, profile_pic as profile_pic, first_name as first_name, last_name as last_name, email as email, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles WHERE profile_id=?";
      mysql.pool.query(sql1, selectedId, function(error, results, fields){
          if(error){
              res.write(JSON.stringify(error));
@@ -96,6 +48,7 @@ function getProfileSelectedDetails(res, req, mysql, context, complete){
      });
   }
 
+/** Obtain detailed profile fields for specific profile_id including skills **/
 function getProfileSelectedSkills(res, req, mysql, context, complete){
      var selectedId = req.params.id;
      var sql2 = "SELECT skill_name FROM Skills S INNER JOIN Profiles_Skills PS ON S.skill_id = PS.skill_id Where PS.profile_id = ?;"
@@ -109,6 +62,7 @@ function getProfileSelectedSkills(res, req, mysql, context, complete){
      });
 }
 
+/** Obtain detailed profile fields for specific profile_id including courses **/
 function getProfileSelectedCourses(res, req, mysql, context, complete){
     var selectedId = req.params.id;
      var sql3 = "SELECT course_name FROM Courses C INNER JOIN Profiles_Courses PC ON C.course_id = PC.course_id Where PC.profile_id = ?;"
@@ -121,7 +75,6 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
          complete();
      });
   }
-  //End trying to make queries work with multiple
 
 app.get('/', (req, res) => {
    res.redirect('homepage');
@@ -154,7 +107,6 @@ app.get('/profile/:id', function(req, res){
         var callbackCount = 0;
         var context = {};
         var mysql = req.app.get('mysql');
-        //var selection = req.params.id;
         getProfileSelectedDetails(res, req, mysql, context, complete);
         getProfileSelectedCourses(res, req, mysql, context, complete);
         getProfileSelectedSkills(res, req, mysql, context, complete);
@@ -167,7 +119,7 @@ app.get('/profile/:id', function(req, res){
 });
 
 
-// Using ONE SQL Statement
+/** We may revisit this in future sprints to see if we can refactor to make this work **/
 /** Route to get selected Expert Profile details based on profile_id **/
 // app.get('/profile/:id', function(req, res){
 //         var callbackCount = 0;
