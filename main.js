@@ -136,7 +136,12 @@ app.get('/profile/:id', function(req, res){
 function getSearchResults(res, req, mysql, context, complete){
  	var term = context.term;
  	var termArray = [term, term];
-	var sql = "SELECT * from Profiles P INNER JOIN Profiles_Skills PS ON P.profile_id = PS.profile_id INNER JOIN Skills S ON PS.skill_id = S.skill_id INNER JOIN Profiles_Courses PC ON P.profile_id = PC.profile_id INNER JOIN Courses C ON PC.course_id = C.course_id WHERE S.skill_name = ? OR C.course_name = ? GROUP BY P.profile_id;"
+	var sql = 	"SELECT * from Profiles P \
+				INNER JOIN Profiles_Skills PS ON P.profile_id = PS.profile_id \
+				INNER JOIN Skills S ON PS.skill_id = S.skill_id \
+				INNER JOIN Profiles_Courses PC ON P.profile_id = PC.profile_id \
+				INNER JOIN Courses C ON PC.course_id = C.course_id \
+				WHERE S.skill_name = ? OR C.course_name = ? GROUP BY P.profile_id;"
 	mysql.pool.query(sql, termArray, function(error, results, fields){
         if(error){
             res.write(JSON.stringify(error));

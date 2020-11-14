@@ -1,6 +1,7 @@
 <h1> Results from querying for an Expert will appear here </h1>
 <p> Term searched for {{term}} <p>
-<!-- <table>
+<p> 
+<table id="table">
     <thead>
         <tr>
             <th>Profile ID</th>
@@ -8,11 +9,11 @@
             <th>Last Name</th>
         </tr>
     </thead>
-        {{#each expert}}
+        {{#each searchRes}}
             <tr>
-                <td>{{this.profile_id}}</td>
-                <td>{{this.first_name}}</td>
-                <td>{{this.last_name}}</td>
+                <td>{{profile_id}}</td>
+                <td>{{first_name}}</td>
+                <td>{{last_name}}</td>
             </tr>
         {{/each}}
-</table> -->
+</table>
