@@ -1,12 +1,13 @@
-  
-<!-- Landing Page -->
+ <!-- Landing Page -->
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
 <div>
   <!-- Button to create an Expert Profile -->
-  <a href="/create-profile"><button>Create an Expert Profile</button></a>
+  <a href="/create-profile" class="btn btn-primary" role="button">Create an Expert Profile</a>
 
   <!-- Button to display all Expert Profiles rather than searching -->
-  <a href="/profile/all"><button>View All Expert Profiles</button></a>
+  <a href="/profile/all" class="btn btn-primary" role="button">View All Expert Profiles</a>
 </div>
 
 <!-- User welcomed -->
@@ -25,7 +26,10 @@
     <form action="/search" method="POST">
       <label for="term">Search for Skill/Course:</label>
       <input type="text" id="term" name="term">
-      <button type="submit">Search</button>
+      <button type="submit" class="btn btn-success">Search</button>
     </form>
   </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
