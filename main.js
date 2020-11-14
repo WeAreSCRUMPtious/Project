@@ -136,7 +136,9 @@ app.get('/profile/:id', function(req, res){
 
 app.post('/search', function(req, res) {
   let mysql = req.app.get('mysql');
-  let term = req.body;
+  let context = {};
+  let term = req.body.term;
+  context.term = term;
 
   // TODO: Code for our future query to database
   // let sql = "SELECT P.profile_id, first_name, last_name from Profiles P INNER JOIN Profiles_Skills PS ON P.profile_id = PS.profile_id INNER JOIN Skills S ON PS.skill_id = S.skill_id INNER JOIN Profiles_Courses PC ON P.profile_id = PC.profile_id INNER JOIN Courses C ON PC.course_id = C.course_id WHERE S.skill_name = ? OR C.course_name = ? GROUP BY P.profile_id;"
@@ -154,7 +156,7 @@ app.post('/search', function(req, res) {
   //             res.status(200).render('searchresults', {expert: results});
   //         }
   //     })
-    res.render('searchresults');
+    res.render('searchresults', context);
   });
 
 /** Present for potential future refactoring **/
