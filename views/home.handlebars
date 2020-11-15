@@ -3,6 +3,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
 <div>
+<div class="col-lg-12 text-center text-primary">
   <!-- Button to create an Expert Profile -->
   <a href="/create-profile" class="btn btn-primary" role="button">Create an Expert Profile</a>
 
@@ -15,18 +16,16 @@
   <div class="row">
     <div class="col-lg-12 text-center text-primary">
       <h1 class="mt-5">Welcome to Expert Finder!</h1>
-      <p class="lead">Search by particular skill, course or organization to find the Experts you are looking for, or create an Expert Profile for others to find:</p>
+      <p class="lead">Search by particular skill, course or organization to find the Experts you are looking for, or create an Expert Profile for others to find.</p>
     </div>
   </div>
 </div>
 
 <div class="row justify-content-center padding">
-  <div class="col-md-8 ftco-animate fadeInUp ftco-animated">
     <!-- Search bar and button to query Expert Profiles -->
     <form action="/search" method="POST">
-      <label for="term">Search for Skill/Course:</label>
-      <input type="text" id="term" name="term">
-      <button type="submit" class="btn btn-success">Search</button>
+      <input type="text" id="term" name="term" placeholder="Skill/Course/Organization">
+      <button type="submit" class="btn btn-success">Find an Expert</button>
     </form>
   </div>
 </div>
