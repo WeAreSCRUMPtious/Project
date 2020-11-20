@@ -1,13 +1,50 @@
 <!-- Landing Page -->
-<!-- I've started incorporating some of Reed's class names from his UI HTML/CSS in case we want to use
- them for styling when the time comes for that -->
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+div {
+  padding: 5px;
+}
+
+input {
+  width: 50%;
+}
+
+.bg {
+  /* The image used */
+  background-image: url(https://p0.pikist.com/photos/88/714/source-code-software-computer-programming-language-data-center-programming-server-digital.jpg);
+
+  /* Full height */
+  height: 50%; 
+
+  /* Center and scale the image */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.search {
+  padding-top: 0px;
+  padding-bottom: 30px;
+  margin-left: 30%;
+  margin-right: 15%;
+  width: auto;
+}
+</style>
 
 <div>
-  <!-- Button to create an Expert Profile , correct link needs to be added-->
-  <a href="/create-profile"><button>Create an Expert Profile</button></a>
+<div class="col-lg-12 text-center text-primary">
+  <!-- Button to create an Expert Profile -->
+  <a href="/create-profile" class="btn btn-primary" role="button">Create an Expert Profile</a>
 
-  <!-- Button to display all Expert Profiles rather than searching, correct link needs to be added -->
-  <a href="/profile/all"><button>View All Expert Profiles</button></a>
+  <!-- Button to display all Expert Profiles rather than searching -->
+  <a href="/profile/all" class="btn btn-primary" role="button">View All Expert Profiles</a>
 </div>
 
 <!-- User welcomed -->
@@ -15,18 +52,23 @@
   <div class="row">
     <div class="col-lg-12 text-center text-primary">
       <h1 class="mt-5">Welcome to Expert Finder!</h1>
-      <p class="lead">Search by particular skill, course or organization to find the Experts you are looking for, or create an Expert Profile for others to find:</p>
+      <p class="lead">Search by particular skill, course or organization to find the Experts you are looking for, or create an Expert Profile for others to find.</p>
     </div>
   </div>
 </div>
 
-<div class="row justify-content-center padding">
-  <div class="col-md-8 ftco-animate fadeInUp ftco-animated">
+<div class="search">
     <!-- Search bar and button to query Expert Profiles -->
     <form action="/search" method="POST">
-      <label for="term">Search for Skill/Course:</label>
-      <input type="text" id="term" name="term">
-      <button type="submit">Search</button>
+      <input type="text" id="term" name="term" placeholder="Skill/Course/Organization">
+      <button type="submit" class="btn btn-success">Find an Expert</button>
     </form>
   </div>
 </div>
+
+<!-- Image filling bottom half of page -->
+<!-- Image used under Creative Commons license -->
+<div class="bg"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>

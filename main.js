@@ -76,6 +76,27 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
      });
   }
 
+/** Obtain details of all profiles that meet the searched term in either skills or courses **/
+function getSearchResults(res, req, mysql, context, complete){
+ 	var term = context.term;
+ 	var termArray = [term, term];
+	var sql = 	"SELECT * from Profiles P \
+				INNER JOIN Profiles_Skills PS ON P.profile_id = PS.profile_id \
+				INNER JOIN Skills S ON PS.skill_id = S.skill_id \
+				INNER JOIN Profiles_Courses PC ON P.profile_id = PC.profile_id \
+				INNER JOIN Courses C ON PC.course_id = C.course_id \
+				WHERE S.skill_name = ? OR C.course_name = ? GROUP BY P.profile_id;"
+	mysql.pool.query(sql, termArray, function(error, results, fields){
+        if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+        }
+        context.searchRes = results;
+        complete();
+    });
+}
+
+/** Route to homepage **/
 app.get('/', (req, res) => {
    res.redirect('homepage');
 });
@@ -99,7 +120,6 @@ app.get('/profile/all', function(req, res){
             if(callbackCount >= 1){
               res.render('profile', context);
             }
-
         }
 });
 
@@ -134,12 +154,14 @@ app.get('/profile/:id', function(req, res){
 //         }
 // });
 
+/** Route to search for profiles that are endorsed in the specific skill/course passed from search bar **/
 app.post('/search', function(req, res) {
-  let mysql = req.app.get('mysql');
-  let context = {};
-  let term = req.body.term;
-  context.term = term;
-
+	var callbackCount = 0;
+  	let mysql = req.app.get('mysql');
+  	let context = {};
+ 	let term = req.body.term;
+  	context.term = term;
+  	getSearchResults(res, req, mysql, context, complete);
   // TODO: Code for our future query to database
   // let sql = "SELECT P.profile_id, first_name, last_name from Profiles P INNER JOIN Profiles_Skills PS ON P.profile_id = PS.profile_id INNER JOIN Skills S ON PS.skill_id = S.skill_id INNER JOIN Profiles_Courses PC ON P.profile_id = PC.profile_id INNER JOIN Courses C ON PC.course_id = C.course_id WHERE S.skill_name = ? OR C.course_name = ? GROUP BY P.profile_id;"
   //     mysql.pool.query(sql, term, function(err, results) {
@@ -156,8 +178,14 @@ app.post('/search', function(req, res) {
   //             res.status(200).render('searchresults', {expert: results});
   //         }
   //     })
-    res.render('searchresults', context);
-  });
+  	function complete(){
+        callbackCount++;
+        if(callbackCount >= 1){
+        	res.render('searchresults', context);
+        }
+	}
+  	//res.render('searchresults', context);
+});
 
 /** Present for potential future refactoring **/
 // app.get('/search/:term', function(req, res) {
