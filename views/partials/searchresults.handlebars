@@ -1,7 +1,23 @@
 
+<script>
+  function gridView() {
+    document.getElementById("divgrid").style.display = "";
+    document.getElementById("divlist").style.display = "none";
+  }
+
+  function listView() {
+    document.getElementById("divgrid").style.display = "none";
+    document.getElementById("divlist").style.display = "";
+  }
+</script>
 
 <h5>Results for "{{term}}":</h5>
 
+<div class="container">
+  <div class="mb-3">
+    <a class="btn btn-primary" onclick="gridView()">Grid View</a>
+    <a class="btn btn-primary" onclick="listView()">List View</a>
+  </div>
 
   <div class="main-body">
     <div id="divgrid" class="row gutters-sm">
