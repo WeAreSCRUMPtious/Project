@@ -1,0 +1,186 @@
+
+
+<h5>Results for "{{term}}":</h5>
+
+
+  <div class="main-body">
+    <div id="divgrid" class="row gutters-sm">
+      {{#each searchRes}}
+        <div class="col-md-4 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-column align-items-center text-center">
+                <img src="https://i.imgur.com/J29Z08u.png" class="rounded-circle" width="150">
+                <div class="mt-3">
+                  <h4>{{first_name}} {{last_name}}</h4>
+                  <a class="btn btn-primary" href="/profile/#{{profile_id}}">View Profile</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://i.imgur.com/J29Z08u.png" class="rounded-circle" width="150">
+              <div class="mt-3">
+                <h4>John Doe</h4>
+                <button class="btn btn-primary">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://i.imgur.com/J29Z08u.png" class="rounded-circle" width="150">
+              <div class="mt-3">
+                <h4>Kyle Doe</h4>
+                <button class="btn btn-primary">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://i.imgur.com/J29Z08u.png" class="rounded-circle" width="150">
+              <div class="mt-3">
+                <h4>Jack Doe</h4>
+                <button class="btn btn-primary">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://i.imgur.com/J29Z08u.png" class="rounded-circle" width="150">
+              <div class="mt-3">
+                <h4>Robert Doe</h4>
+                <button class="btn btn-primary">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://i.imgur.com/J29Z08u.png" class="rounded-circle" width="150">
+              <div class="mt-3">
+                <h4>James Doe</h4>
+                <button class="btn btn-primary">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://i.imgur.com/J29Z08u.png" class="rounded-circle" width="150">
+              <div class="mt-3">
+                <h4>Rick Doe</h4>
+                <button class="btn btn-primary">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="divlist" style="display:none">
+ 
+      <div class="card mb-3 w-50">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="https://i.imgur.com/J29Z08u.png" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title">John Doe</h4>
+            </div>
+            <div class="card-body">
+              <button class="btn btn-primary">View Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-3 w-50">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="https://i.imgur.com/J29Z08u.png" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title">Kyle Doe</h4>
+            </div>
+            <div class="card-body">
+              <button class="btn btn-primary">View Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-3 w-50">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="https://i.imgur.com/J29Z08u.png" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title">Jack Doe</h4>
+            </div>
+            <div class="card-body">
+              <button class="btn btn-primary">View Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-3 w-50">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="https://i.imgur.com/J29Z08u.png" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title">Robert Doe</h4>
+            </div>
+            <div class="card-body">
+              <button class="btn btn-primary">View Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{#each searchRes}}
+      <div class="card mb-3 w-50">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="https://i.imgur.com/J29Z08u.png" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title">{{first_name}} {{last_name}}</h4>
+            </div>
+            <div class="card-body">
+              <a class="btn btn-primary" href="/profile/#{{profile_id}}">View Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+  
+    </div>
+  </div>
+</div>
