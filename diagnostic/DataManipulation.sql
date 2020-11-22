@@ -2,9 +2,16 @@
 
 -- Insert a Profile
 INSERT INTO Profiles (profile_pic, first_name, last_name, email, industry, github_link, linkedin_link, twitter_link)
-VALUES  (NULL, '${firstname}', '${lastname}', '${email}', '${industry}', '${github}', '${linkedin}', '${twitter}');
+VALUES  (NULL, '${firstname}', '${lastname}', '${email}', '${industry}', '${github}', '${linkedin}', '${twitter}')
+WHERE NOT EXISTS
+    (SELECT email FROM Profiles WHERE email = '{email}');
 
 -- Insert Skill Relationship
+INSERT INTO Profiles_Skills (profile_id, skill_id)
+VALUES ((   SELECT profile_id FROM Profiles p
+            WHERE  p.email = '${email}';),
+            SELECT skill_id FROM Skills s
+            WHERE s.skill_name = '${skill_name}');
 
 -- Insert Class Relationship
 
@@ -26,7 +33,7 @@ SELECT * FROM Profiles_Skills PS
     INNER JOIN Skills S on PS.skill_id = S.skill_id
     INNER JOIN Profiles_Courses PC on P.profile_id = PC.profile_id
     INNER JOIN Courses C on PC.course_id = C.course_id
-    WHERE PS.profile_id = 1;
+    WHERE PS.profile_id = 1; -- Add profile id variable here
 
 -- Pull Full Profile by ID
 SELECT * FROM Profiles
