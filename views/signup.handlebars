@@ -28,7 +28,12 @@
     <label for="twitter">Enter your Twitter link: </label>
     <input type="text" name="twitter" id="twitter">
   </div>
-  <div>
+  <h2> Select your skills:</h2>
+  {{#each allskills}}
+    <input type="checkbox" id="skillname" name={{skill_name}} value={{skill_name}}>
+    <label for="skillname">{{skill_name}}</label><br><br>
+  {{/each}}
+  <!-- <div>
     <p>Select your skills:</p>
     <input type="checkbox" id="Python" name="Python" value="Python">
     <label for="Python"> Python</label><br>
@@ -46,8 +51,16 @@
     <label for="CSS"> CSS</label><br>
     <input type="checkbox" id="React" name="React" value="React">
     <label for="React"> React</label><br><br>
-  </div>
-  <div>
+  </div> -->
+  <h2> Select your courses:</h2>
+  {{#each allcourses}}
+    <!-- <ul>
+      <li>{{course_name}}</li>
+    </ul> -->
+    <input type="checkbox" id="coursename" name={{course_name}} value={{course_name}}>
+    <label for="coursename">{{course_name}}</label><br><br>
+  {{/each}}
+  <!-- <div>
     <p>Select your courses:</p>
     <input type="checkbox" id="CS161" name="CS161" value="CS161">
     <label for="CS161"> CS161</label><br>
@@ -72,7 +85,7 @@
     <input type="checkbox" id="CS362" name="CS362" value="CS362">
     <label for="CS362"> CS362</label><br>
     <input type="checkbox" id="CS467" name="CS467" value="CS467">
-    <label for="CS467"> CS467</label><br><br>
+    <label for="CS467"> CS467</label><br><br> -->
     <p> Upload a photo </p>
     <input type="file" id="profilepic" name="profilepic">
   <div class="signup-form">

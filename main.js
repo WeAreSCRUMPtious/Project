@@ -98,7 +98,7 @@ function getAllSkills(res, req, mysql, context, complete){
 /** Get list of courses from courses database table **/
 function getAllCourses(res, req, mysql, context, complete){
   var coursesql = "SELECT * FROM Courses"
-  mysql.pool.query(courseql, function(error, results, fields){
+  mysql.pool.query(coursesql, function(error, results, fields){
        if(error){
            res.write(JSON.stringify(error));
            res.end();
@@ -192,23 +192,33 @@ app.post('/search', function(req, res) {
   });
 
 /** Route to render the sign up form for creating new Expert profile **/
-  app.get('/signup', function(req, res) {
-      res.render('signup');
-  });
+app.get('/signup', function(req, res) {
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  getAllSkills(res, req, mysql, context, complete);
+  getAllCourses(res, req, mysql, context, complete);
+  function complete(){
+      callbackCount++;
+      if(callbackCount >= 2){
+        res.render('signup', context);
+      }
+  }
+});
 
-/** Route to render the sign up form for creating new Expert profile **/
-  app.post('/signup', function(req, res) {
-    var callbackCount = 0;
-    var context = {};
-    var mysql = req.app.get('mysql');
-    signupUser(res, req, mysql, context, complete);
-    function complete(){
-        callbackCount++;
-        if(callbackCount >= 1){
-          res.render('signupconfirmation', context);
-        }
-    }
-  });
+/** Route to handle submission of signup form **/
+app.post('/signup', function(req, res) {
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  signupUser(res, req, mysql, context, complete);
+  function complete(){
+      callbackCount++;
+      if(callbackCount >= 1){
+        res.render('signupconfirmation', context);
+      }
+  }
+});
 
 /** Present for potential future refactoring **/
 // app.get('/search/:term', function(req, res) {
