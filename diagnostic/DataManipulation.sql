@@ -1,7 +1,12 @@
 -- Queries that are used on our website for user interaction.
 
 -- Insert a Profile
+INSERT INTO Profiles (profile_pic, first_name, last_name, email, industry, github_link, linkedin_link, twitter_link)
+VALUES  (NULL, '${firstname}', '${lastname}', '${email}', '${industry}', '${github}', '${linkedin}', '${twitter}');
 
+-- Insert Skill Relationship
+
+-- Insert Class Relationship
 
 -- Insert a Skill
 INSERT INTO Skills (skill_name)
