@@ -208,6 +208,7 @@ app.get('/signup', function(req, res) {
 
 /** Route to handle submission of signup form **/
 app.post('/signup', function(req, res) {
+  console.log(req.body);
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');

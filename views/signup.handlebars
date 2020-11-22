@@ -30,7 +30,7 @@
   </div>
   <h2> Select your skills:</h2>
   {{#each allskills}}
-    <input type="checkbox" id="skillname" name={{skill_name}} value={{skill_name}}>
+    <input type="checkbox" id="skill" name=skill value={{skill_id}}>
     <label for="skillname">{{skill_name}}</label><br><br>
   {{/each}}
   <!-- <div>
@@ -57,7 +57,7 @@
     <!-- <ul>
       <li>{{course_name}}</li>
     </ul> -->
-    <input type="checkbox" id="coursename" name={{course_name}} value={{course_name}}>
+    <input type="checkbox" id="course" name="course" value={{course_id}}>
     <label for="coursename">{{course_name}}</label><br><br>
   {{/each}}
   <!-- <div>
