@@ -6,7 +6,7 @@ VALUES  (NULL, '${firstname}', '${lastname}', '${email}', '${industry}', '${gith
 WHERE NOT EXISTS
     (SELECT email FROM Profiles WHERE email = '{email}');
 
--- Insert Skill Relationship
+-- Insert Skill Relationship on signup
 INSERT INTO Profiles_Skills (profile_id, skill_id)
 VALUES ((   SELECT profile_id FROM Profiles p
             WHERE  p.email = '${email}';),
