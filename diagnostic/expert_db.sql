@@ -70,7 +70,17 @@ VALUES  ('Python'),
         ('Node.js'),
         ('HTML'),
         ('CSS'),
-        ('React');
+        ('React'),
+        ('Java'),
+        ('Rust'),
+        ('SQL'),
+        ('MongoDB'),
+        ('Machine Learning'),
+        ('Data Engineering'),
+        ('GIT'),
+        ('Algorithms'),
+        ('UI/UX'),
+        ('Mobile Development');
 
 INSERT INTO Courses (course_name)
 VALUES  ('CS162'),
@@ -80,7 +90,14 @@ VALUES  ('CS162'),
         ('CS325'),
         ('CS340'),
         ('CS344'),
-        ('CS361');
+        ('CS361'),
+        ('CS261'),
+        ('CS271'),
+        ('CS352'),
+        ('CS362'),
+        ('CS372'),
+        ('CS467'),
+        ('CS475');
 
 INSERT INTO Profiles_Skills(profile_id, skill_id)
 VALUES  (1, 1),
