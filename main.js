@@ -65,8 +65,8 @@ function getProfileSelectedSkills(res, req, mysql, context, complete){
 /** Obtain detailed profile fields for specific profile_id including courses **/
 function getProfileSelectedCourses(res, req, mysql, context, complete){
     var selectedId = req.params.id;
-     var sql3 = "SELECT course_name FROM Courses C INNER JOIN Profiles_Courses PC ON C.course_id = PC.course_id Where PC.profile_id = ?;"
-     mysql.pool.query(sql3, selectedId, function(error, results, fields){
+    var sql3 = "SELECT course_name FROM Courses C INNER JOIN Profiles_Courses PC ON C.course_id = PC.course_id Where PC.profile_id = ?;"
+    mysql.pool.query(sql3, selectedId, function(error, results, fields){
          if(error){
              res.write(JSON.stringify(error));
              res.end();
@@ -76,12 +76,37 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
      });
   }
 
-  /** Sign up user with details provided in signup form **/
-  function signupUser (res, req, mysql, context, complete){
-       // Jeff's code goes here
-           complete();
-       });
-    }
+/** Sign up user with details provided in signup form **/
+function signupUser (res, req, mysql, context, complete){
+    // Jeff's code goes here
+    complete();
+}
+
+/** Get list of skills from Skills database table **/
+function getAllSkills(res, req, mysql, context, complete){
+    var skillsql = "SELECT * FROM Skills"
+    mysql.pool.query(skillsql, function(error, results, fields){
+         if(error){
+             res.write(JSON.stringify(error));
+             res.end();
+         }
+         context.allskills  = results;
+         complete();
+     });
+}
+
+/** Get list of courses from courses database table **/
+function getAllCourses(res, req, mysql, context, complete){
+  var coursesql = "SELECT * FROM Courses"
+  mysql.pool.query(courseql, function(error, results, fields){
+       if(error){
+           res.write(JSON.stringify(error));
+           res.end();
+       }
+       context.allcourses  = results;
+       complete();
+   });
+}
 
 app.get('/', (req, res) => {
    res.redirect('homepage');
