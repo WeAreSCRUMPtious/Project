@@ -76,6 +76,13 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
      });
   }
 
+  /** Sign up user with details provided in signup form **/
+  function signupUser (res, req, mysql, context, complete){
+       // Jeff's code goes here
+           complete();
+       });
+    }
+
 app.get('/', (req, res) => {
    res.redirect('homepage');
 });
@@ -162,7 +169,21 @@ app.post('/search', function(req, res) {
 /** Route to render the sign up form for creating new Expert profile **/
   app.get('/signup', function(req, res) {
       res.render('signup');
-    });
+  });
+
+/** Route to render the sign up form for creating new Expert profile **/
+  app.post('/signup', function(req, res) {
+    var callbackCount = 0;
+    var context = {};
+    var mysql = req.app.get('mysql');
+    signupUser(res, req, mysql, context, complete);
+    function complete(){
+        callbackCount++;
+        if(callbackCount >= 1){
+          res.render('signupconfirmation', context);
+        }
+    }
+  });
 
 /** Present for potential future refactoring **/
 // app.get('/search/:term', function(req, res) {
