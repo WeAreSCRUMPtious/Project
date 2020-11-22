@@ -65,8 +65,8 @@ function getProfileSelectedSkills(res, req, mysql, context, complete){
 /** Obtain detailed profile fields for specific profile_id including courses **/
 function getProfileSelectedCourses(res, req, mysql, context, complete){
     var selectedId = req.params.id;
-     var sql3 = "SELECT course_name FROM Courses C INNER JOIN Profiles_Courses PC ON C.course_id = PC.course_id Where PC.profile_id = ?;"
-     mysql.pool.query(sql3, selectedId, function(error, results, fields){
+    var sql3 = "SELECT course_name FROM Courses C INNER JOIN Profiles_Courses PC ON C.course_id = PC.course_id Where PC.profile_id = ?;"
+    mysql.pool.query(sql3, selectedId, function(error, results, fields){
          if(error){
              res.write(JSON.stringify(error));
              res.end();
@@ -75,6 +75,38 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
          complete();
      });
   }
+
+/** Sign up user with details provided in signup form **/
+function signupUser (res, req, mysql, context, complete){
+    // Jeff's code goes here
+    complete();
+}
+
+/** Get list of skills from Skills database table **/
+function getAllSkills(res, req, mysql, context, complete){
+    var skillsql = "SELECT * FROM Skills ORDER BY skill_name"
+    mysql.pool.query(skillsql, function(error, results, fields){
+         if(error){
+             res.write(JSON.stringify(error));
+             res.end();
+         }
+         context.allskills  = results;
+         complete();
+     });
+}
+
+/** Get list of courses from courses database table **/
+function getAllCourses(res, req, mysql, context, complete){
+  var coursesql = "SELECT * FROM Courses ORDER BY course_name"
+  mysql.pool.query(coursesql, function(error, results, fields){
+       if(error){
+           res.write(JSON.stringify(error));
+           res.end();
+       }
+       context.allcourses  = results;
+       complete();
+   });
+}
 
 /** Obtain details of all profiles that meet the searched term in either skills or courses **/
 function getSearchResults(res, req, mysql, context, complete){
@@ -96,7 +128,6 @@ function getSearchResults(res, req, mysql, context, complete){
     });
 }
 
-/** Route to homepage **/
 app.get('/', (req, res) => {
    res.redirect('homepage');
 });
@@ -120,6 +151,7 @@ app.get('/profile/all', function(req, res){
             if(callbackCount >= 1){
               res.render('profile', context);
             }
+
         }
 });
 
@@ -138,23 +170,6 @@ app.get('/profile/:id', function(req, res){
         }
 });
 
-/** We may revisit this in future sprints to see if we can refactor to make this work **/
-/** Route to get selected Expert Profile details based on profile_id **/
-// app.get('/profile/:id', function(req, res){
-//         var callbackCount = 0;
-//         var context = {};
-//         var mysql = req.app.get('mysql');
-//         //var selection = req.params.id;
-//         getProfileSelected(res, req, mysql, context, complete);
-//         function complete(){
-//             callbackCount++;
-//             if(callbackCount >= 1){
-//               res.render('profiledetail', context);
-//             }
-//         }
-// });
-
-/** Route to search for profiles that are endorsed in the specific skill/course passed from search bar **/
 app.post('/search', function(req, res) {
 	var callbackCount = 0;
   	let mysql = req.app.get('mysql');
@@ -187,27 +202,35 @@ app.post('/search', function(req, res) {
   	//res.render('searchresults', context);
 });
 
-/** Present for potential future refactoring **/
-// app.get('/search/:term', function(req, res) {
-//     let mysql = req.app.get('mysql');
-//
-//     let term = req.params.term;
-//     let sql = "SELECT profile_id, first_name, last_name from Profiles P INNER JOIN Profiles_Skills PS ON P.profile_id = PS.profile_id INNER JOIN Skills S ON PS.skill_id = S.skill_id INNER JOIN Profiles_Courses PC ON P.profile_id = PC.profile_id INNER JOIN Courses C ON PC.course_id = C.course_id WHERE S.skill_name = ? OR C.course_name = ? GROUP BY P.profile_id;"
-//     mysql.pool.query(sql, [term, term], function(err, results) {
-//         if(err) {
-//             console.log(err);
-//         } else {
-//             /*
-//             let listExperts = [];
-//
-//             for(i = 0; i < result.length; i++) {
-//                 listExperts[i].push(result[i].profile_id);
-//             }
-//             */
-//             res.status(200).render('searchresults', {expert: results});
-//         }
-//     })
-// });
+/** Route to render the sign up form for creating new Expert profile **/
+app.get('/signup', function(req, res) {
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  getAllSkills(res, req, mysql, context, complete);
+  getAllCourses(res, req, mysql, context, complete);
+  function complete(){
+      callbackCount++;
+      if(callbackCount >= 2){
+        res.render('signup', context);
+      }
+  }
+});
+
+/** Route to handle submission of signup form **/
+app.post('/signup', function(req, res) {
+  console.log(req.body);
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  signupUser(res, req, mysql, context, complete);
+  function complete(){
+      callbackCount++;
+      if(callbackCount >= 1){
+        res.render('signupconfirmation', context);
+      }
+  }
+});
 
 app.use((err, req, res, next) => {
   const { stack } = err;
