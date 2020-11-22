@@ -84,7 +84,7 @@ function signupUser (res, req, mysql, context, complete){
 
 /** Get list of skills from Skills database table **/
 function getAllSkills(res, req, mysql, context, complete){
-    var skillsql = "SELECT * FROM Skills"
+    var skillsql = "SELECT * FROM Skills ORDER BY skill_name"
     mysql.pool.query(skillsql, function(error, results, fields){
          if(error){
              res.write(JSON.stringify(error));
@@ -97,7 +97,7 @@ function getAllSkills(res, req, mysql, context, complete){
 
 /** Get list of courses from courses database table **/
 function getAllCourses(res, req, mysql, context, complete){
-  var coursesql = "SELECT * FROM Courses"
+  var coursesql = "SELECT * FROM Courses ORDER BY course_name"
   mysql.pool.query(coursesql, function(error, results, fields){
        if(error){
            res.write(JSON.stringify(error));
