@@ -88,17 +88,21 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
 
 /** Sign up user with details provided in signup form **/
 function signupUser (res, req, mysql, context, complete){
+  //Create the array of values to pass to the SQL query
 	var profileArray = [req.body.firstname, req.body.lastname, req.body.email, req.body.industry, req.body.github, 
 						req.body.linkedin, req.body.twitter, req.body.email];
 
-	console.log(profileArray);
+    //SQL Query to insert data into Profiles entity
     var profileSql = "INSERT INTO Profiles (profile_pic, first_name, last_name, email, industry, github_link, linkedin_link, twitter_link) \
 						SELECT  NULL, ?, ?, ?, ?, ?, ?, ? \
 						WHERE NOT EXISTS \
     					(SELECT email FROM Profiles WHERE email = ?) \
     					LIMIT 1;";
+
+    //Call the mysql.pool with the proper form data
     mysql.pool.query(profileSql, profileArray, function(error, results, fields){
     	if(error){
+        //Dump contents of sql and error
     		console.log(profileSql);
     		res.write(JSON.stringify(error));
     		res.end();
@@ -109,14 +113,17 @@ function signupUser (res, req, mysql, context, complete){
 
 /** Attach Skills to new user Profile **/
 function signupUserSkills (res, req, mysql, context, complete,){
+  //Create the array of values to pass to the SQL Query
 	var sqlArray = [req.body.email, req.body.skill];
 	var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) \
 					VALUES ((   SELECT profile_id FROM Profiles p \
             					WHERE  p.email = ?), \
             					?);";
 
+  //Call the mysql.pool with the proper form data
 	mysql.pool.query(skillSql, sqlArray, function(error, results, fields){
     	if(error){
+        //Dump error
     		res.write(JSON.stringify(error));
     		res.end();
     	}
@@ -144,6 +151,7 @@ function signupUserSkills (res, req, mysql, context, complete,){
 
 /** Attach Courses to new user Profile **/
 function signupUserCourses (res, req, mysql, context, complete,){
+  //Create the array of values to pass to the sql query
 	var sqlArray = [req.body.email, req.body.course];
 	var courseSql =	"INSERT INTO Profiles_Courses (profile_id, course_id) \
 					VALUES ((   SELECT profile_id FROM Profiles p \
@@ -152,6 +160,7 @@ function signupUserCourses (res, req, mysql, context, complete,){
 
 	mysql.pool.query(courseSql, sqlArray, function(error, results, fields){
     	if(error){
+        //Dump Error
     		res.write(JSON.stringify(error));
     		res.end();
     	}
@@ -299,6 +308,8 @@ app.post('/signup', function(req, res) {
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
+
+  //Call signup functions to add profiles.
   signupUser(res, req, mysql, context, complete);
   //signupUserSkills(res, req, mysql, context, complete);
   //signupUserCourses(res, req, mysql, context, complete);
