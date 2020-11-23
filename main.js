@@ -97,25 +97,27 @@ function signupUser (res, req, mysql, context, complete){
     complete();
 }
 
-/** Attach Skills to new user Profile 
-function signupUserSkills (res, req, mysql, context, complete){
-	var skillArray = req.body.skill;
+/** Attach Skills to new user Profile **/
+function signupUserSkills (res, req, mysql, context, complete, item, index){
 	var profileEmail = req.body.email;
-	var sqlArray = [];
-	var skillSql = "";
+	var skill = item;
+	var sqlArray = [profileEmail, skill];
+	var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) \
+					VALUES ((   SELECT profile_id FROM Profiles p \
+            					WHERE  p.email = ?), \
+            					(SELECT skill_id FROM Skills s \
+            					WHERE s.skill_name = ?));";
 
-	skillArray.foreach(element )
-
-	mysql.pool.query(profileSql, profileArray, function(error, results, fields){
+	mysql.pool.query(skillSql, sqlArray, function(error, results, fields){
     	if(error){
     		console.log(profileSql);
     		res.write(JSON.stringify(error));
     		res.end();
     	}
     });
+
     complete();
 }
-**/
 
 /** Get list of skills from Skills database table **/
 function getAllSkills(res, req, mysql, context, complete){
@@ -259,6 +261,13 @@ app.post('/signup', function(req, res) {
   var context = {};
   var mysql = req.app.get('mysql');
   signupUser(res, req, mysql, context, complete);
+
+  var skillArray = req.body.skill;
+  skillArray.forEach(function(item, index){
+  		element => console.log(element); //debugging to see if it gets into the loop before error
+  		signupUserSkills(res, req, mysql, context, complete, item, index);
+  });
+
   function complete(){
       callbackCount++;
       if(callbackCount >= 1){
