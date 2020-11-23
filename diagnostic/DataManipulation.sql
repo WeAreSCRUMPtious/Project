@@ -2,9 +2,10 @@
 
 -- Insert a Profile
 INSERT INTO Profiles (profile_pic, first_name, last_name, email, industry, github_link, linkedin_link, twitter_link)
-VALUES  (NULL, '${firstname}', '${lastname}', '${email}', '${industry}', '${github}', '${linkedin}', '${twitter}')
+SELECT  NULL, ?, ?, ?, ?, ?, ?, ?
 WHERE NOT EXISTS
-    (SELECT email FROM Profiles WHERE email = '{email}');
+    (SELECT email FROM Profiles WHERE email = ?)
+    LIMIT 1;
 
 -- Insert Skill Relationship on signup
 INSERT INTO Profiles_Skills (profile_id, skill_id)
