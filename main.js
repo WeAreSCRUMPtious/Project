@@ -93,12 +93,13 @@ function signupUser (res, req, mysql, context, complete){
     		res.write(JSON.stringify(error));
     		res.end();
     	}
-      context
+      //context
+      complete();
     });
-    complete();
+    //complete();
 }
 
-function getIdFromEmail(res, req, mysql, context, complete){
+function duplicateEmailFound(res, req, mysql, context, complete){
 	var emailSearch = req.body.email;
     var emailSQL = "SELECT profile_id from Profiles WHERE email=?;";
     mysql.pool.query(emailSQL, emailSearch, function(error, results, fields){
@@ -110,35 +111,86 @@ function getIdFromEmail(res, req, mysql, context, complete){
       console.log("Here are results from IdFromEmail:")
       console.log(results);
       if (results.length > 0) {
-        console.log("Entering this loop1")
-        context.newRecord = false;
-        context.thisProfileId = results;
+        return true;
       //  complete();
       }
-      else {
-        console.log("entering this loop2")
-        context.newRecord = true;
-        //context.thisProfileId = results;
-        //complete();
+      else if (results.length == 0) {
+        return false;
       }
-    complete();
+  //  complete();
     });
 }
 
 /** Attach Skills to new user Profile **/
 function signupUserSkills (res, req, mysql, context, complete){
+	var profileEmail = req.body.email;
 	var skillArray = req.body.skill;
-  var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) VALUES (?, ?);"
-  skillArray.forEach(element =>
-    mysql.pool.query(skillSql, skillArray[elment], function(error, results, fields){
-      	if(error){
-      		console.log(profileSql);
-      		res.write(JSON.stringify(error));
-      		res.end();
-      	}
+	var sqlArray = [profileEmail, skillArray];
+	// var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) \
+	// 				        VALUES ((   SELECT profile_id FROM Profiles p \
+  //           			WHERE  p.email = ?), \
+  //           			(SELECT skill_id FROM Skills s \
+  //           			WHERE s.skill_name = ?));";
+    //WORKS TO HERE
 
-  }));
+  var sqlquery1 = "INSERT INTO Profiles_Skills (profile_id, skill_id) VALUES"
+
+  var paramString = ""
+  for (i = 0; i < skillArray.length; i++) {
+    if(i < skillArray.length-1){
+      paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${skillArray[i]}),`;
+    }
+    if(i == skillArray.length-1){
+      paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${skillArray[i]})`;
+    }
+  }
+
+  var skillsqlquery = sqlquery1 + paramString
+
+	mysql.pool.query(skillsqlquery,function(error, results, fields){
+    	if(error){
+    		res.write(JSON.stringify(error));
+    		res.end();
+    	}
     complete();
+    });
+    //complete();
+}
+
+/** Attach Skills to new user Profile **/
+function signupUserCourses (res, req, mysql, context, complete){
+	var profileEmail = req.body.email;
+	var courseArray = req.body.course;
+	var sqlArray = [profileEmail, courseArray];
+	// var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) \
+	// 				        VALUES ((   SELECT profile_id FROM Profiles p \
+  //           			WHERE  p.email = ?), \
+  //           			(SELECT skill_id FROM Skills s \
+  //           			WHERE s.skill_name = ?));";
+    //WORKS TO HERE
+
+  var sqlquery2 = "INSERT INTO Profiles_Courses (profile_id, course_id) VALUES"
+
+  var paramString = ""
+  for (i = 0; i < courseArray.length; i++) {
+    if(i < courseArray.length-1){
+      paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${courseArray[i]}),`;
+    }
+    if(i == courseArray.length-1){
+      paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${courseArray[i]})`;
+    }
+  }
+
+  var coursesqlquery = sqlquery2 + paramString
+
+	mysql.pool.query(coursesqlquery,function(error, results, fields){
+    	if(error){
+    		res.write(JSON.stringify(error));
+    		res.end();
+    	}
+    complete();
+    });
+    //complete();
 }
 
 
@@ -283,18 +335,26 @@ app.post('/signup', function(req, res) {
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
-  getIdFromEmail(res, req, mysql, context, complete);
-  console.log("Is this a new record?")
-  console.log(context.newRecord);
-  if(context.newRecord == true){
+  if(!duplicateEmailFound(res, req, mysql)){
     signupUser(res, req, mysql, context, complete);
+    // signupUserSkills(res, req, mysql, context, complete);
+    // signupUserCourses(res, req, mysql, context, complete);
   }
     function complete(){
         callbackCount++;
-        if(callbackCount >= 2){
+
+        if(callbackCount==1){
+          signupUserSkills(res, req, mysql, context, complete);
+        }
+
+        if(callbackCount==2){
+          signupUserCourses(res, req, mysql, context, complete);
+        }
+
+        if(callbackCount >= 3){
           res.render('signupconfirmation', context);
         }
-        if(callbackCount == 1){
+        if(callbackCount == 0){
           res.render('duplicateemail', context);
         }
       }
