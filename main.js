@@ -280,8 +280,7 @@ app.post('/signup', function(req, res) {
   var context = {};
   var mysql = req.app.get('mysql');
   signupUser(res, req, mysql, context, complete);
-  console.log("After User Signup");
-  //signupUserSkills(res, req, mysql, context, complete);
+  signupUserSkills(res, req, mysql, context, complete);
 
 /** NOT WORKING
   var skillArray = req.body.skill;
@@ -292,7 +291,7 @@ app.post('/signup', function(req, res) {
 **/
   function complete(){
       callbackCount++;
-      if(callbackCount >= 1){
+      if(callbackCount >= 2){
         res.render('signupconfirmation', context);
       }
   }
