@@ -93,10 +93,8 @@ function signupUser (res, req, mysql, context, complete){
     		res.write(JSON.stringify(error));
     		res.end();
     	}
-      //context
       complete();
     });
-    //complete();
 }
 
 function duplicateEmailFound(res, req, mysql, context, complete){
@@ -112,12 +110,10 @@ function duplicateEmailFound(res, req, mysql, context, complete){
       console.log(results);
       if (results.length > 0) {
         return true;
-      //  complete();
       }
       else if (results.length == 0) {
         return false;
       }
-  //  complete();
     });
 }
 
@@ -126,12 +122,6 @@ function signupUserSkills (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var skillArray = req.body.skill;
 	var sqlArray = [profileEmail, skillArray];
-	// var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) \
-	// 				        VALUES ((   SELECT profile_id FROM Profiles p \
-  //           			WHERE  p.email = ?), \
-  //           			(SELECT skill_id FROM Skills s \
-  //           			WHERE s.skill_name = ?));";
-    //WORKS TO HERE
 
   var sqlquery1 = "INSERT INTO Profiles_Skills (profile_id, skill_id) VALUES"
 
@@ -154,7 +144,6 @@ function signupUserSkills (res, req, mysql, context, complete){
     	}
     complete();
     });
-    //complete();
 }
 
 /** Attach Skills to new user Profile **/
@@ -162,12 +151,6 @@ function signupUserCourses (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var courseArray = req.body.course;
 	var sqlArray = [profileEmail, courseArray];
-	// var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) \
-	// 				        VALUES ((   SELECT profile_id FROM Profiles p \
-  //           			WHERE  p.email = ?), \
-  //           			(SELECT skill_id FROM Skills s \
-  //           			WHERE s.skill_name = ?));";
-    //WORKS TO HERE
 
   var sqlquery2 = "INSERT INTO Profiles_Courses (profile_id, course_id) VALUES"
 
@@ -190,7 +173,6 @@ function signupUserCourses (res, req, mysql, context, complete){
     	}
     complete();
     });
-    //complete();
 }
 
 
@@ -289,29 +271,12 @@ app.post('/search', function(req, res) {
  	let term = req.body.term;
   	context.term = term;
   	getSearchResults(res, req, mysql, context, complete);
-  // TODO: Code for our future query to database
-  // let sql = "SELECT P.profile_id, first_name, last_name from Profiles P INNER JOIN Profiles_Skills PS ON P.profile_id = PS.profile_id INNER JOIN Skills S ON PS.skill_id = S.skill_id INNER JOIN Profiles_Courses PC ON P.profile_id = PC.profile_id INNER JOIN Courses C ON PC.course_id = C.course_id WHERE S.skill_name = ? OR C.course_name = ? GROUP BY P.profile_id;"
-  //     mysql.pool.query(sql, term, function(err, results) {
-  //         if(err) {
-  //             console.log(err);
-  //         } else {
-  //             /*
-  //             let listExperts = [];
-  //
-  //             for(i = 0; i < result.length; i++) {
-  //                 listExperts[i].push(result[i].profile_id);
-  //             }
-  //             */
-  //             res.status(200).render('searchresults', {expert: results});
-  //         }
-  //     })
   	function complete(){
         callbackCount++;
         if(callbackCount >= 1){
         	res.render('searchresults', context);
         }
 	}
-  	//res.render('searchresults', context);
 });
 
 /** Route to render the sign up form for creating new Expert profile **/
