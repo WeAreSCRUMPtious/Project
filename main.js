@@ -109,36 +109,38 @@ function getIdFromEmail(res, req, mysql, context, complete){
     	}
       console.log("Here are results from IdFromEmail:")
       console.log(results);
-      if (results != null) {
+      if (results.length > 0) {
+        console.log("Entering this loop1")
         context.newRecord = false;
+        context.thisProfileId = results;
       //  complete();
       }
       else {
+        console.log("entering this loop2")
         context.newRecord = true;
+        //context.thisProfileId = results;
         //complete();
       }
     complete();
     });
 }
 
-
-/** Attach Skills to new user Profile
+/** Attach Skills to new user Profile **/
 function signupUserSkills (res, req, mysql, context, complete){
 	var skillArray = req.body.skill;
-	var profileEmail = req.body.email;
-	var sqlArray = [];
-	var skillSql = "";
-	skillArray.foreach(element )
-	mysql.pool.query(profileSql, profileArray, function(error, results, fields){
-    	if(error){
-    		console.log(profileSql);
-    		res.write(JSON.stringify(error));
-    		res.end();
-    	}
-    });
+  var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) VALUES (?, ?);"
+  skillArray.forEach(element =>
+    mysql.pool.query(skillSql, skillArray[elment], function(error, results, fields){
+      	if(error){
+      		console.log(profileSql);
+      		res.write(JSON.stringify(error));
+      		res.end();
+      	}
+
+  }));
     complete();
 }
-**/
+
 
 /** Get list of skills from Skills database table **/
 function getAllSkills(res, req, mysql, context, complete){
@@ -282,6 +284,8 @@ app.post('/signup', function(req, res) {
   var context = {};
   var mysql = req.app.get('mysql');
   getIdFromEmail(res, req, mysql, context, complete);
+  console.log("Is this a new record?")
+  console.log(context.newRecord);
   if(context.newRecord == true){
     signupUser(res, req, mysql, context, complete);
   }
@@ -290,7 +294,7 @@ app.post('/signup', function(req, res) {
         if(callbackCount >= 2){
           res.render('signupconfirmation', context);
         }
-        if(callbackCount >= 1){
+        if(callbackCount == 1){
           res.render('duplicateemail', context);
         }
       }
