@@ -102,7 +102,6 @@ function signupUserSkills (res, req, mysql, context, complete,){
 	var profileEmail = req.body.email;
 	var skill = req.body.skill;
 	var sqlArray = [profileEmail, skill];
-	//Works to here
 	var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) \
 					VALUES ((   SELECT profile_id FROM Profiles p \
             					WHERE  p.email = ?), \
@@ -135,6 +134,28 @@ function signupUserSkills (res, req, mysql, context, complete,){
     	}
     });
 **/
+    complete();
+}
+
+/** Attach Courses to new user Profile **/
+function signupUserCourses (res, req, mysql, context, complete,){
+	var profileEmail = req.body.email;
+	var course = req.body.course;
+	var sqlArray = [profileEmail, course];
+	var courseSql =	"INSERT INTO Profiles_Courses (profile_id, course_id) \
+					VALUES ((   SELECT profile_id FROM Profiles p \
+            					WHERE  p.email = ?), \
+            					?);";
+    console.log("vars set");
+    console.log(profileEmail);
+    console.log(course);
+    console.log(sqlArray);
+	mysql.pool.query(courseSql, sqlArray, function(error, results, fields){
+    	if(error){
+    		res.write(JSON.stringify(error));
+    		res.end();
+    	}
+    });
     complete();
 }
 
@@ -280,7 +301,8 @@ app.post('/signup', function(req, res) {
   var context = {};
   var mysql = req.app.get('mysql');
   signupUser(res, req, mysql, context, complete);
-  signupUserSkills(res, req, mysql, context, complete);
+  //signupUserSkills(res, req, mysql, context, complete);
+  //signupUserCourses(res, req, mysql, context, complete);
 
 /** NOT WORKING
   var skillArray = req.body.skill;
@@ -291,7 +313,7 @@ app.post('/signup', function(req, res) {
 **/
   function complete(){
       callbackCount++;
-      if(callbackCount >= 2){
+      if(callbackCount >= 1){ //Set to 2 while courses isn't working
         res.render('signupconfirmation', context);
       }
   }
