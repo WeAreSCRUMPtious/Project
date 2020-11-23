@@ -109,17 +109,12 @@ function signupUser (res, req, mysql, context, complete){
 
 /** Attach Skills to new user Profile **/
 function signupUserSkills (res, req, mysql, context, complete,){
-	var profileEmail = req.body.email;
-	var skill = req.body.skill;
-	var sqlArray = [profileEmail, skill];
+	var sqlArray = [req.body.email, req.body.skill];
 	var skillSql = "INSERT INTO Profiles_Skills (profile_id, skill_id) \
 					VALUES ((   SELECT profile_id FROM Profiles p \
             					WHERE  p.email = ?), \
             					?);";
-    console.log("vars set");
-    console.log(profileEmail);
-    console.log(skill);
-    console.log(sqlArray);
+
 	mysql.pool.query(skillSql, sqlArray, function(error, results, fields){
     	if(error){
     		res.write(JSON.stringify(error));
@@ -149,17 +144,12 @@ function signupUserSkills (res, req, mysql, context, complete,){
 
 /** Attach Courses to new user Profile **/
 function signupUserCourses (res, req, mysql, context, complete,){
-	var profileEmail = req.body.email;
-	var course = req.body.course;
-	var sqlArray = [profileEmail, course];
+	var sqlArray = [req.body.email, req.body.course];
 	var courseSql =	"INSERT INTO Profiles_Courses (profile_id, course_id) \
 					VALUES ((   SELECT profile_id FROM Profiles p \
             					WHERE  p.email = ?), \
             					?);";
-    console.log("vars set");
-    console.log(profileEmail);
-    console.log(course);
-    console.log(sqlArray);
+
 	mysql.pool.query(courseSql, sqlArray, function(error, results, fields){
     	if(error){
     		res.write(JSON.stringify(error));
@@ -306,7 +296,6 @@ app.get('/signup', function(req, res) {
 
 /** Route to handle submission of signup form **/
 app.post('/signup', function(req, res) {
-  console.log(req.body);
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');

@@ -28,14 +28,6 @@ INSERT INTO Courses (course_name)
     WHERE NOT EXISTS
     (SELECT * FROM Courses WHERE course_name = '{course}');
 
--- Show Full Profile Data
-SELECT * FROM Profiles_Skills PS
-    INNER JOIN Profiles P on PS.profile_id = P.profile_id
-    INNER JOIN Skills S on PS.skill_id = S.skill_id
-    INNER JOIN Profiles_Courses PC on P.profile_id = PC.profile_id
-    INNER JOIN Courses C on PC.course_id = C.course_id
-    WHERE PS.profile_id = 1; -- Add profile id variable here
-
 -- Pull Full Profile by ID
 SELECT * FROM Profiles
 WHERE profile_id = 1; -- This would need to be passed the profile ID variable
