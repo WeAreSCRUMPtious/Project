@@ -78,7 +78,7 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
 
 /** Sign up user with details provided in signup form **/
 function signupUser (res, req, mysql, context, complete){
-	var profileArray = [req.body.firstname, req.body.lastname, req.body.email, req.body.industry, req.body.github, 
+	var profileArray = [req.body.firstname, req.body.lastname, req.body.email, req.body.industry, req.body.github,
 						req.body.linkedin, req.body.twitter, req.body.email];
 
 	console.log(profileArray);
@@ -93,19 +93,42 @@ function signupUser (res, req, mysql, context, complete){
     		res.write(JSON.stringify(error));
     		res.end();
     	}
+      context
     });
     complete();
 }
 
-/** Attach Skills to new user Profile 
+function getIdFromEmail(res, req, mysql, context, complete){
+	var emailSearch = req.body.email;
+    var emailSQL = "SELECT profile_id from Profiles WHERE email=?;";
+    mysql.pool.query(emailSQL, emailSearch, function(error, results, fields){
+    	if(error){
+    		console.log(profileSql);
+    		res.write(JSON.stringify(error));
+    		res.end();
+    	}
+      console.log("Here are results from IdFromEmail:")
+      console.log(results);
+      if (results != null) {
+        context.newRecord = false;
+      //  complete();
+      }
+      else {
+        context.newRecord = true;
+        //complete();
+      }
+    complete();
+    });
+}
+
+
+/** Attach Skills to new user Profile
 function signupUserSkills (res, req, mysql, context, complete){
 	var skillArray = req.body.skill;
 	var profileEmail = req.body.email;
 	var sqlArray = [];
 	var skillSql = "";
-
 	skillArray.foreach(element )
-
 	mysql.pool.query(profileSql, profileArray, function(error, results, fields){
     	if(error){
     		console.log(profileSql);
@@ -244,12 +267,12 @@ app.get('/signup', function(req, res) {
   var mysql = req.app.get('mysql');
   getAllSkills(res, req, mysql, context, complete);
   getAllCourses(res, req, mysql, context, complete);
-  function complete(){
-      callbackCount++;
-      if(callbackCount >= 2){
-        res.render('signup', context);
-      }
-  }
+    function complete(){
+        callbackCount++;
+        if(callbackCount >= 2){
+          res.render('signup', context);
+        }
+    }
 });
 
 /** Route to handle submission of signup form **/
@@ -258,13 +281,19 @@ app.post('/signup', function(req, res) {
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
-  signupUser(res, req, mysql, context, complete);
-  function complete(){
-      callbackCount++;
-      if(callbackCount >= 1){
-        res.render('signupconfirmation', context);
-      }
+  getIdFromEmail(res, req, mysql, context, complete);
+  if(context.newRecord == true){
+    signupUser(res, req, mysql, context, complete);
   }
+    function complete(){
+        callbackCount++;
+        if(callbackCount >= 2){
+          res.render('signupconfirmation', context);
+        }
+        if(callbackCount >= 1){
+          res.render('duplicateemail', context);
+        }
+      }
 });
 
 app.use((err, req, res, next) => {
