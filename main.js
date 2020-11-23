@@ -78,9 +78,44 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
 
 /** Sign up user with details provided in signup form **/
 function signupUser (res, req, mysql, context, complete){
-    // Jeff's code goes here
+	var profileArray = [req.body.firstname, req.body.lastname, req.body.email, req.body.industry, req.body.github, 
+						req.body.linkedin, req.body.twitter, req.body.email];
+
+	console.log(profileArray);
+    var profileSql = "INSERT INTO Profiles (profile_pic, first_name, last_name, email, industry, github_link, linkedin_link, twitter_link) \
+						SELECT  NULL, ?, ?, ?, ?, ?, ?, ? \
+						WHERE NOT EXISTS \
+    					(SELECT email FROM Profiles WHERE email = ?) \
+    					LIMIT 1;";
+    mysql.pool.query(profileSql, profileArray, function(error, results, fields){
+    	if(error){
+    		console.log(profileSql);
+    		res.write(JSON.stringify(error));
+    		res.end();
+    	}
+    });
     complete();
 }
+
+/** Attach Skills to new user Profile 
+function signupUserSkills (res, req, mysql, context, complete){
+	var skillArray = req.body.skill;
+	var profileEmail = req.body.email;
+	var sqlArray = [];
+	var skillSql = "";
+
+	skillArray.foreach(element )
+
+	mysql.pool.query(profileSql, profileArray, function(error, results, fields){
+    	if(error){
+    		console.log(profileSql);
+    		res.write(JSON.stringify(error));
+    		res.end();
+    	}
+    });
+    complete();
+}
+**/
 
 /** Get list of skills from Skills database table **/
 function getAllSkills(res, req, mysql, context, complete){
