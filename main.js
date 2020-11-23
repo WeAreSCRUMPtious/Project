@@ -118,6 +118,7 @@ function duplicateEmailFound(res, req, mysql, context, complete){
 }
 
 /** Attach Skills to new user Profile **/
+
 function signupUserSkills (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var skillArray = req.body.skill;
@@ -144,6 +145,11 @@ function signupUserSkills (res, req, mysql, context, complete){
     	}
     complete();
     });
+
+
+
+
+
 }
 
 /** Attach Skills to new user Profile **/
@@ -167,10 +173,13 @@ function signupUserCourses (res, req, mysql, context, complete){
   var coursesqlquery = sqlquery2 + paramString
 
 	mysql.pool.query(coursesqlquery,function(error, results, fields){
+
     	if(error){
     		res.write(JSON.stringify(error));
     		res.end();
     	}
+
+
     complete();
     });
 }
@@ -300,10 +309,12 @@ app.post('/signup', function(req, res) {
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
+
   if(!duplicateEmailFound(res, req, mysql)){
     signupUser(res, req, mysql, context, complete);
     // signupUserSkills(res, req, mysql, context, complete);
     // signupUserCourses(res, req, mysql, context, complete);
+
   }
     function complete(){
         callbackCount++;
