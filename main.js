@@ -301,6 +301,27 @@ app.get('/editprofile/:id', function(req, res){
   }
 });
 
+/** Route to submit profile changes from edit form**/
+app.post('/submitprofilechange/:id', function(req, res) {
+  // console.log(req.body);
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+
+  if(!duplicateEmailFound(res, req, mysql)){
+    editUser(res, req, mysql, context, complete);
+  } else {
+    res.render('duplicateemail', context);
+  }
+
+  function complete(){
+    callbackCount++;
+    if(callbackCount >= 1){
+      res.render('', context);
+    }
+  }
+});
+
 app.post('/search', function(req, res) {
 	var callbackCount = 0;
   	let mysql = req.app.get('mysql');
