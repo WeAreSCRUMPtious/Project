@@ -287,6 +287,20 @@ app.get('/profile/:id', function(req, res){
         }
 });
 
+/** Route to edit form of a profile**/
+app.get('/editprofile/:id', function(req, res){
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  getProfileSelectedDetails(res, req, mysql, context, complete);
+  function complete(){
+    callbackCount++;
+    if(callbackCount >= 1){
+      res.render('editprofile', context);
+    }
+  }
+});
+
 app.post('/search', function(req, res) {
 	var callbackCount = 0;
   	let mysql = req.app.get('mysql');
