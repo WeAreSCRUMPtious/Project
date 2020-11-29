@@ -99,6 +99,27 @@ function signupUser (res, req, mysql, context, complete){
     //complete();
 }
 
+/** Updates user profile details **/
+function editUser(res, req, mysql, context, complete) {
+  var newDetails = [req.body.firstname, req.body.lastname, req.body.email, req.body.industry,
+                    req.body.github, req.body.linkedin, req.body.twitter, req.params.id];
+  
+  console.log(newDetails);
+
+  var updateSql = 'UPDATE Profiles \
+                   SET first_name = ?, last_name = ?, email = ?, industry = ?, github_link = ?, linkedin_link = ?, twitter_link = ? \ 
+                   WHERE profile_id = ?';
+
+  mysql.pool.query(updateSql, newDetails, function(error, results, fields) {
+    if(error) {
+      console.log(profileSql);
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    complete();
+  });
+}
+
 function duplicateEmailFound(res, req, mysql, context, complete){
 	var emailSearch = req.body.email;
     var emailSQL = "SELECT profile_id from Profiles WHERE email=?;";
