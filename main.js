@@ -287,7 +287,7 @@ app.get('/profile/:id', function(req, res){
         }
 });
 
-/** Route to edit form of a profile**/
+/** Route to edit form of a profile **/
 app.get('/editprofile/:id', function(req, res){
   var callbackCount = 0;
   var context = {};
@@ -301,7 +301,7 @@ app.get('/editprofile/:id', function(req, res){
   }
 });
 
-/** Route to submit profile changes from edit form**/
+/** Route to submit profile changes from edit form **/
 app.post('/submitprofilechange/:id', function(req, res) {
   // console.log(req.body);
   var callbackCount = 0;
@@ -309,7 +309,7 @@ app.post('/submitprofilechange/:id', function(req, res) {
   var mysql = req.app.get('mysql');
 
   if(!duplicateEmailFound(res, req, mysql)){
-    editUser(res, req, mysql, context, complete);
+    editUser(res, req, mysql, context, complete); // still need to make
   } else {
     res.render('duplicateemail', context);
   }
@@ -317,7 +317,7 @@ app.post('/submitprofilechange/:id', function(req, res) {
   function complete(){
     callbackCount++;
     if(callbackCount >= 1){
-      res.render('', context);
+      res.render('', context); // render a confirmation page?
     }
   }
 });
