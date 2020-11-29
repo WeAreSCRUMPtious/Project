@@ -104,15 +104,13 @@ function editUser(res, req, mysql, context, complete) {
   var newDetails = [req.body.firstname, req.body.lastname, req.body.email, req.body.industry,
                     req.body.github, req.body.linkedin, req.body.twitter, req.params.id];
   
-  console.log(newDetails);
-
-  var updateSql = 'UPDATE Profiles \
-                   SET first_name = ?, last_name = ?, email = ?, industry = ?, github_link = ?, linkedin_link = ?, twitter_link = ? \ 
-                   WHERE profile_id = ?';
+  var updateSql = "UPDATE Profiles \
+                   SET first_name = ?, last_name = ?, email = ?, industry = ?, github_link = ?, linkedin_link = ?, twitter_link = ? \
+                   WHERE profile_id = ?;";
 
   mysql.pool.query(updateSql, newDetails, function(error, results, fields) {
     if(error) {
-      console.log(profileSql);
+      console.log(updateSql);
       res.write(JSON.stringify(error));
       res.end();
     }
@@ -324,21 +322,16 @@ app.get('/editprofile/:id', function(req, res){
 
 /** Route to submit profile changes from edit form **/
 app.post('/submitprofilechange/:id', function(req, res) {
-  // console.log(req.body);
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
 
-  if(!duplicateEmailFound(res, req, mysql)){
-    editUser(res, req, mysql, context, complete); // still need to make
-  } else {
-    res.render('duplicateemail', context);
-  }
-
-  function complete(){
+  editUser(res, req, mysql, context, complete);
+  
+  function complete() {
     callbackCount++;
-    if(callbackCount >= 1){
-      res.render('', context); // render a confirmation page?
+    if(callbackCount >= 1) {
+      res.render('profilechangeconfirmation', context);
     }
   }
 });
