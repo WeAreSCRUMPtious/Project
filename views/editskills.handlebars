@@ -1,0 +1,27 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<div class="container">
+  <h2 class="mt-5"> Current Skills:</h2>
+  <div class="card-body">
+    <ul class="card-text">
+      {{#each skills}}
+        <li class="card-text">{{skill_name}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
+<form class="form-horizontal" action="/editskills" method="POST">
+  <h2 class="container"> Select Skills To Add:</h2>
+  {{#each allskills}}
+    <input type="checkbox" id="skill" name=skill value={{skill_id}}>
+    <label for="skillname">{{skill_name}}</label><br><br>
+  {{/each}}
+
+  <div class="editskills-form">
+    <input type="submit" class="btn btn-primary btn-block" value="Submit">
+  </div>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
