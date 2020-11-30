@@ -222,6 +222,32 @@ function getSearchResults(res, req, mysql, context, complete){
     });
 }
 
+//TODO: delete this if Jeff's query can work
+// function getCoursesAvailableToAdd(res, req, mysql, context, complete){
+//   // Obtain list of all available courses
+//   allCourses [] =
+//   // Obtain list of courses currently stored in Expert's profile
+//   // Only display courses from list of all available courses that are NOT already in Expert profile
+//
+// }
+
+function getCoursesAvailableToAdd(res, req, mysql, context, complete){
+     var selectedId = req.params.id;
+     var sql = "SELECT * FROM Skills \
+        WHERE skill_name NOT IN ( \
+        SELECT skill_name FROM Skills S \
+        INNER JOIN Profiles_Skills PS ON S.skill_id = PS.skill_id \
+        WHERE PS.profile_id = ?)"      
+      mysql.pool.query(sql, selectedId, function(error, results, fields){
+          if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+      }
+        context.coursesAvailable = results;
+             complete();
+    });
+}
+
 app.get('/', (req, res) => {
    res.redirect('homepage');
 });
