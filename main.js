@@ -122,9 +122,7 @@ function signupUserSkills (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var skillArray = req.body.skill;
 	var sqlArray = [profileEmail, skillArray];
-
   var sqlquery1 = "INSERT INTO Profiles_Skills (profile_id, skill_id) VALUES"
-
   var paramString = ""
   for (i = 0; i < skillArray.length; i++) {
     if(i < skillArray.length-1){
@@ -134,9 +132,7 @@ function signupUserSkills (res, req, mysql, context, complete){
       paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${skillArray[i]})`;
     }
   }
-
   var skillsqlquery = sqlquery1 + paramString
-
 	mysql.pool.query(skillsqlquery,function(error, results, fields){
     	if(error){
     		res.write(JSON.stringify(error));
@@ -151,9 +147,7 @@ function signupUserCourses (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var courseArray = req.body.course;
 	var sqlArray = [profileEmail, courseArray];
-
   var sqlquery2 = "INSERT INTO Profiles_Courses (profile_id, course_id) VALUES"
-
   var paramString = ""
   for (i = 0; i < courseArray.length; i++) {
     if(i < courseArray.length-1){
@@ -163,10 +157,10 @@ function signupUserCourses (res, req, mysql, context, complete){
       paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${courseArray[i]})`;
     }
   }
-
   var coursesqlquery = sqlquery2 + paramString
-
 	mysql.pool.query(coursesqlquery,function(error, results, fields){
+    console.log("signupUserCourses query:")
+    console.log(coursesqlquery)
     	if(error){
     		res.write(JSON.stringify(error));
     		res.end();
@@ -174,7 +168,6 @@ function signupUserCourses (res, req, mysql, context, complete){
     complete();
     });
 }
-
 
 /** Get list of skills from Skills database table **/
 function getAllSkills(res, req, mysql, context, complete){
@@ -222,15 +215,6 @@ function getSearchResults(res, req, mysql, context, complete){
     });
 }
 
-//TODO: delete this if Jeff's query can work
-// function getCoursesAvailableToAdd(res, req, mysql, context, complete){
-//   // Obtain list of all available courses
-//   allCourses [] =
-//   // Obtain list of courses currently stored in Expert's profile
-//   // Only display courses from list of all available courses that are NOT already in Expert profile
-//
-// }
-
 function getSkillsAvailableToAdd(res, req, mysql, context, complete){
      var selectedId = req.params.id;
      var sql = "SELECT * FROM Skills \
@@ -263,7 +247,7 @@ function getCoursesAvailableToAdd(res, req, mysql, context, complete){
             res.end();
       }
         context.availableCourses = results;
-        console.log("context.skillsAvailable:")
+        console.log("context.availableCourses:")
         console.log(context.availableCourses)
              complete();
     });
@@ -315,7 +299,7 @@ app.post('/search', function(req, res) {
 	var callbackCount = 0;
   	let mysql = req.app.get('mysql');
   	let context = {};
- 	let term = req.body.term;
+ 	  let term = req.body.term;
   	context.term = term;
   	getSearchResults(res, req, mysql, context, complete);
   	function complete(){
@@ -382,9 +366,10 @@ app.get('/editskills/:id', function (req, res) {
   getProfileSelectedSkills(res, req, mysql, context, complete);
   // getAllSkills(res, req, mysql, context, complete);
   getSkillsAvailableToAdd(res, req, mysql, context, complete);
+  getProfileSelectedDetails(res, req, mysql, context, complete);
     function complete(){
       callbackCount++;
-      if(callbackCount >= 2){
+      if(callbackCount >= 3){
         res.render('editskills.handlebars', context);
       }
   }
@@ -400,20 +385,33 @@ app.get('/editcourses/:id', function (req, res) {
   getProfileSelectedCourses(res, req, mysql, context, complete);
   // getAllCourses(res, req, mysql, context, complete);
   getCoursesAvailableToAdd(res, req, mysql, context, complete);
+  getProfileSelectedDetails(res, req, mysql, context, complete);
     function complete(){
       callbackCount++;
-      if(callbackCount >= 2){
+      if(callbackCount >= 3){
         res.render('editcourses.handlebars', context);
       }
   }
 });
 
-
-app.post('/editcourses/:id', function (req, res) {
-    //TODO
+app.post('/editcourses', function (req, res) {
+  console.log ("req.body of POST to /editcourses/");
+  console.log(req.body);
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  let course_id = req.body.course_id;
+  context.course_id = term;
+  signupUserCourses(res, req, mysql, context, complete);
+    function complete(){
+        callbackCount++;
+        if(callbackCount >= 1){
+          res.render('home.handlebars', context);
+        }
+      }
 });
 
-app.post('/editskills/:id', function (req, res) {
+app.post('/editskills', function (req, res) {
     //TODO
 });
 

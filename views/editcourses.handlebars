@@ -14,10 +14,10 @@
 <form class="form-horizontal" action="/editcourses" method="POST">
   <h2 class="container"> Select Courses To Add:</h2>
   {{#each availableCourses}}
-    <input type="checkbox" id="course" name=course value={{course_id}}>
+    <input type="checkbox" id="course" name="course" value={{course_id}}>
     <label for="coursename">{{course_name}}</label><br><br>
   {{/each}}
-
+  <input type = "hidden" name = "email" value = {{#each profile}}{{email}}{{/each}} />
   <div class="editcourses-form">
     <input type="submit" class="btn btn-primary btn-block" value="Submit">
   </div>

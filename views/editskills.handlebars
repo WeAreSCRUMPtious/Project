@@ -17,7 +17,7 @@
     <input type="checkbox" id="skill" name=skill value={{skill_id}}>
     <label for="skillname">{{skill_name}}</label><br><br>
   {{/each}}
-
+  <input type = "hidden" name = "email" value = {{#each profile}}{{email}}{{/each}} />
   <div class="editskills-form">
     <input type="submit" class="btn btn-primary btn-block" value="Submit">
   </div>
