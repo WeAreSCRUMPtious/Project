@@ -97,6 +97,7 @@ function signupUser (res, req, mysql, context, complete){
     });
 }
 
+/** Check that email address is alrady prsesent in Profiles table and return True if found **/
 function duplicateEmailFound(res, req, mysql, context, complete){
 	var emailSearch = req.body.email;
     var emailSQL = "SELECT profile_id from Profiles WHERE email=?;";
@@ -215,6 +216,8 @@ function getSearchResults(res, req, mysql, context, complete){
     });
 }
 
+/** Get the skills for a given profile ID that are not already added
+to the expert's profile, so they are available to be added **/
 function getSkillsAvailableToAdd(res, req, mysql, context, complete){
      var selectedId = req.params.id;
      var sql = "SELECT * FROM Skills \
@@ -234,6 +237,8 @@ function getSkillsAvailableToAdd(res, req, mysql, context, complete){
     });
 }
 
+/** Get the courses for a given profile ID that are not already added
+to the expert's profile, so they are available to be added **/
 function getCoursesAvailableToAdd(res, req, mysql, context, complete){
      var selectedId = req.params.id;
      var sql = "SELECT * FROM Courses \
@@ -259,10 +264,6 @@ app.get('/', (req, res) => {
 
 app.get('/homepage', (req, res) => {
    res.render('home');
-});
-
-app.get('/profile', (req, res) => {
-   res.render('profile');
 });
 
 /** Route to get all Expert profiles **/
@@ -333,8 +334,6 @@ app.post('/signup', function(req, res) {
   var mysql = req.app.get('mysql');
   if(!duplicateEmailFound(res, req, mysql)){
     signupUser(res, req, mysql, context, complete);
-    // signupUserSkills(res, req, mysql, context, complete);
-    // signupUserCourses(res, req, mysql, context, complete);
   }
     function complete(){
         callbackCount++;
@@ -364,7 +363,6 @@ app.get('/editskills/:id', function (req, res) {
   var context = {}
   var mysql = req.app.get('mysql');
   getProfileSelectedSkills(res, req, mysql, context, complete);
-  // getAllSkills(res, req, mysql, context, complete);
   getSkillsAvailableToAdd(res, req, mysql, context, complete);
   getProfileSelectedDetails(res, req, mysql, context, complete);
     function complete(){
@@ -383,7 +381,6 @@ app.get('/editcourses/:id', function (req, res) {
   var context = {}
   var mysql = req.app.get('mysql');
   getProfileSelectedCourses(res, req, mysql, context, complete);
-  // getAllCourses(res, req, mysql, context, complete);
   getCoursesAvailableToAdd(res, req, mysql, context, complete);
   getProfileSelectedDetails(res, req, mysql, context, complete);
     function complete(){
@@ -394,14 +391,14 @@ app.get('/editcourses/:id', function (req, res) {
   }
 });
 
+/** Route to handle a POST request received by submitting the form to
+Edit a user's profile by adding additional courses **/
 app.post('/editcourses', function (req, res) {
   console.log ("req.body of POST to /editcourses/");
   console.log(req.body);
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
-  let course_id = req.body.course_id;
-  context.course_id = term;
   signupUserCourses(res, req, mysql, context, complete);
     function complete(){
         callbackCount++;
@@ -411,10 +408,22 @@ app.post('/editcourses', function (req, res) {
       }
 });
 
+/** Route to handle a POST request received by submitting the form to
+Edit a user's profile by adding additional skills **/
 app.post('/editskills', function (req, res) {
-    //TODO
+  console.log ("req.body of POST to /editcourses/");
+  console.log(req.body);
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  signupUserSkills(res, req, mysql, context, complete);
+    function complete(){
+        callbackCount++;
+        if(callbackCount >= 1){
+          res.render('home.handlebars', context);
+        }
+      }
 });
-
 
 app.use((err, req, res, next) => {
   const { stack } = err;
