@@ -118,7 +118,6 @@ function duplicateEmailFound(res, req, mysql, context, complete){
 }
 
 /** Attach Skills to new user Profile **/
-
 function signupUserSkills (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var skillArray = req.body.skill;
@@ -145,11 +144,6 @@ function signupUserSkills (res, req, mysql, context, complete){
     	}
     complete();
     });
-
-
-
-
-
 }
 
 /** Attach Skills to new user Profile **/
@@ -173,13 +167,10 @@ function signupUserCourses (res, req, mysql, context, complete){
   var coursesqlquery = sqlquery2 + paramString
 
 	mysql.pool.query(coursesqlquery,function(error, results, fields){
-
     	if(error){
     		res.write(JSON.stringify(error));
     		res.end();
     	}
-
-
     complete();
     });
 }
@@ -309,12 +300,10 @@ app.post('/signup', function(req, res) {
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
-
   if(!duplicateEmailFound(res, req, mysql)){
     signupUser(res, req, mysql, context, complete);
     // signupUserSkills(res, req, mysql, context, complete);
     // signupUserCourses(res, req, mysql, context, complete);
-
   }
     function complete(){
         callbackCount++;
@@ -335,6 +324,50 @@ app.post('/signup', function(req, res) {
         }
       }
 });
+
+/** Route to display all current skills for a user, all available skills,
+and the form will then allow user to submit in order to Edit this user's
+profile by adding new skill(s) to their profile **/
+app.get('/editskills/:id', function (req, res) {
+  var callbackCount = 0;
+  var context = {}
+  var mysql = req.app.get('mysql');
+  getProfileSelectedSkills(res, req, mysql, context, complete);
+  getAllSkills(res, req, mysql, context, complete);
+    function complete(){
+      callbackCount++;
+      if(callbackCount >= 2){
+        res.render('editskills.handlebars', context);
+      }
+  }
+});
+
+/** Route to display all current courses for a user, all available courses,
+and the form will then allow user to submit in order to Edit this user's
+profile by adding new course(s) to their profile **/
+app.get('/editcourses/:id', function (req, res) {
+  var callbackCount = 0;
+  var context = {}
+  var mysql = req.app.get('mysql');
+  getProfileSelectedCourses(res, req, mysql, context, complete);
+  getAllCourses(res, req, mysql, context, complete);
+    function complete(){
+      callbackCount++;
+      if(callbackCount >= 2){
+        res.render('editcourses.handlebars', context);
+      }
+  }
+});
+
+
+app.post('/editcourses/:id', function (req, res) {
+    //TODO
+});
+
+app.post('/editskills/:id', function (req, res) {
+    //TODO
+});
+
 
 app.use((err, req, res, next) => {
   const { stack } = err;
