@@ -1,3 +1,26 @@
+<style>
+.card-title {
+  text-align: center !important;
+}
+
+#ep-btn {
+display: block;
+}
+
+#es-btn {
+display: block;
+}
+
+#ec-btn {
+display: block;
+}
+
+.btn {
+  margin-bottom: 5px;
+}
+
+</style>
+
 <div class="container">
     <div class="main-body">
 
@@ -69,8 +92,9 @@
               </div>
           {{/each}}
 
-              <div class="row gutters-sm">
-                <div class="card text-center">
+              <div class="row">
+                <div class="col-sm-4">
+                 <div class="card text-center">
                   <div class="card-body">
                     <h5 class="card-title">Technical Skills</h5>
                     {{#each skills}}
@@ -80,19 +104,25 @@
                     </ul>
                     {{/each}}
                   </div>
+                 </div>
+                </div>
+
+                <div class="col-sm-3">
+                 <div class="card text-center">
                   <div class="card-body">
                     <h5 class="card-title">Courses</h5>
                     {{#each courses}}
-                    <ul class="card-text">
+                    <ul class="card-text" id="courses">
                         <li class="card-text">{{course_name}}
                         </li>
                     </ul>
                     {{/each}}
                   </div>
-                </div>
+                 </div>
+               </div>
               </div>
-          </div>
+            </div>
         </div>
-
+      </div>
   </div>
 </div>
