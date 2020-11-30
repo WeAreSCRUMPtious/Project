@@ -1,0 +1,27 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<div class="container">
+  <h2 class="mt-5"> Current Courses:</h2>
+  <div class="card-body">
+    <ul class="card-text">
+      {{#each courses}}
+        <li class="card-text">{{course_name}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
+<form class="form-horizontal" action="/editcourses" method="POST">
+  <h2 class="container"> Select Courses To Add:</h2>
+  {{#each availableCourses}}
+    <input type="checkbox" id="course" name=course value={{course_id}}>
+    <label for="coursename">{{course_name}}</label><br><br>
+  {{/each}}
+
+  <div class="editcourses-form">
+    <input type="submit" class="btn btn-primary btn-block" value="Submit">
+  </div>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
