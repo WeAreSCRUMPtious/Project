@@ -231,19 +231,40 @@ function getSearchResults(res, req, mysql, context, complete){
 //
 // }
 
-function getCoursesAvailableToAdd(res, req, mysql, context, complete){
+function getSkillsAvailableToAdd(res, req, mysql, context, complete){
      var selectedId = req.params.id;
      var sql = "SELECT * FROM Skills \
         WHERE skill_name NOT IN ( \
         SELECT skill_name FROM Skills S \
         INNER JOIN Profiles_Skills PS ON S.skill_id = PS.skill_id \
-        WHERE PS.profile_id = ?)"      
+        WHERE PS.profile_id = ?)"
       mysql.pool.query(sql, selectedId, function(error, results, fields){
           if(error){
             res.write(JSON.stringify(error));
             res.end();
       }
-        context.coursesAvailable = results;
+        context.availableSkills = results;
+        console.log("context.skillsAvailable:")
+        console.log(context.availableSkills)
+             complete();
+    });
+}
+
+function getCoursesAvailableToAdd(res, req, mysql, context, complete){
+     var selectedId = req.params.id;
+     var sql = "SELECT * FROM Courses \
+        WHERE course_name NOT IN ( \
+        SELECT course_name FROM Courses C \
+        INNER JOIN Profiles_Courses PS ON C.course_id = PS.course_id \
+        WHERE PS.profile_id = ?)"
+      mysql.pool.query(sql, selectedId, function(error, results, fields){
+          if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+      }
+        context.availableCourses = results;
+        console.log("context.skillsAvailable:")
+        console.log(context.availableCourses)
              complete();
     });
 }
@@ -359,7 +380,8 @@ app.get('/editskills/:id', function (req, res) {
   var context = {}
   var mysql = req.app.get('mysql');
   getProfileSelectedSkills(res, req, mysql, context, complete);
-  getAllSkills(res, req, mysql, context, complete);
+  // getAllSkills(res, req, mysql, context, complete);
+  getSkillsAvailableToAdd(res, req, mysql, context, complete);
     function complete(){
       callbackCount++;
       if(callbackCount >= 2){
@@ -376,7 +398,8 @@ app.get('/editcourses/:id', function (req, res) {
   var context = {}
   var mysql = req.app.get('mysql');
   getProfileSelectedCourses(res, req, mysql, context, complete);
-  getAllCourses(res, req, mysql, context, complete);
+  // getAllCourses(res, req, mysql, context, complete);
+  getCoursesAvailableToAdd(res, req, mysql, context, complete);
     function complete(){
       callbackCount++;
       if(callbackCount >= 2){
