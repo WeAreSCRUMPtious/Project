@@ -1,0 +1,47 @@
+<style>
+.signup-form {
+  padding-top: 25px;
+  padding-bottom: 30px;
+}
+</style>
+
+{{#each profile}}
+  <div class="container">
+    <h2 class="mt-5"> Edit your details:</h2>
+  </div>
+  <form class="form-horizontal" action="/submitprofilechange/{{profile_id}}" method="POST">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="firstname">First name: </label>
+      <input class="form-control" type="text" value={{first_name}} name="firstname" id="firstname" required>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="lastname">Last name: </label>
+      <input class="form-control" type="text" value={{last_name}} name="lastname" id="lastname" required>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="email">Email: </label>
+      <input class="form-control" type="email" value={{email}} name="email" id="email" required>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="industry">Industry: </label>
+      <input class="form-control" type="text" value={{industry}}  name="industry" id="industry">
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="github">GitHub link: </label>
+      <input class="form-control" type="text" value={{github_link}}  name="github" id="github">
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="linkedin">LinkedIn link: </label>
+      <input class="form-control" type="text" value={{linkedin_link}} name="linkedin" id="linkedin">
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="twitter">Twitter link: </label>
+      <input class="form-control" type="text" value={{twitter_link}} name="twitter" id="twitter">
+    </div>
+      <h2 class="container"> Upload a photo:</h2>
+      <input type="file" id="profilepic" name="profilepic">
+    <div class="signup-form">
+      <input type="submit" class="btn btn-primary btn-block" value="Submit Changes">
+    </div>
+  </form>
+{{/each}}
