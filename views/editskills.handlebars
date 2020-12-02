@@ -20,10 +20,11 @@ h2 {
 <form class="form-horizontal" action="/editskills" method="POST">
   <h2 class="container"> Select Skills To Add:</h2>
   {{#each availableSkills}}
-    <input type="checkbox" id="skill" name=skill value={{skill_id}}>
+  <!-- skill[] needed to send all skills in array in POST req even if only 1 selected -->
+    <input type="checkbox" id="skill" name=skill[] value={{skill_id}}>
     <label for="skillname">{{skill_name}}</label><br><br>
   {{/each}}
-
+  <input type = "hidden" name = "email" value = {{#each profile}}{{email}}{{/each}} />
   <div class="editskills-form">
     <input type="submit" class="btn btn-primary btn-block" value="Submit">
   </div>
