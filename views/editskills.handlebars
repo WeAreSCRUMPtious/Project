@@ -14,7 +14,7 @@
 <form class="form-horizontal" action="/editskills" method="POST">
   <h2 class="container"> Select Skills To Add:</h2>
   {{#each availableSkills}}
-    <input type="checkbox" id="skill" name=skill value={{skill_id}}>
+    <input type="checkbox" id="skill" name=skill[] value={{skill_id}}>
     <label for="skillname">{{skill_name}}</label><br><br>
   {{/each}}
   <input type = "hidden" name = "email" value = {{#each profile}}{{email}}{{/each}} />

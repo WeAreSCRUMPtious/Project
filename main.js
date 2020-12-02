@@ -122,18 +122,36 @@ function duplicateEmailFound(res, req, mysql, context, complete){
 function signupUserSkills (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var skillArray = req.body.skill;
-	var sqlArray = [profileEmail, skillArray];
+//	var sqlArray = [profileEmail, skillArray];
   var sqlquery1 = "INSERT INTO Profiles_Skills (profile_id, skill_id) VALUES"
   var paramString = ""
-  for (i = 0; i < skillArray.length; i++) {
-    if(i < skillArray.length-1){
-      paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${skillArray[i]}),`;
+
+// console.log ("skillArray[0]:")
+// console.log (skillArray[0]);
+// console.log("length of skill array:")
+// console.log(skillArray.length)
+// console.log("skillArray")
+// console.log(skillArray)
+
+
+
+if(skillArray.length == 1){
+    skillToAdd = skillArray[0];
+    paramString = `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), '${skillToAdd}')`
+  }
+
+  else{
+    for (i = 0; i < skillArray.length; i++) {
+        if(i < skillArray.length-1){
+        paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${skillArray[i]}),`;
     }
     if(i == skillArray.length-1){
-      paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${skillArray[i]})`;
+    paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${skillArray[i]})`;
     }
   }
-  var skillsqlquery = sqlquery1 + paramString
+}
+
+    var skillsqlquery = sqlquery1 + paramString
 	mysql.pool.query(skillsqlquery,function(error, results, fields){
     	if(error){
     		res.write(JSON.stringify(error));
@@ -147,18 +165,27 @@ function signupUserSkills (res, req, mysql, context, complete){
 function signupUserCourses (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var courseArray = req.body.course;
-	var sqlArray = [profileEmail, courseArray];
-  var sqlquery2 = "INSERT INTO Profiles_Courses (profile_id, course_id) VALUES"
+	// var sqlArray = [profileEmail, courseArray];
+  var sqlquery1 = "INSERT INTO Profiles_Courses (profile_id, course_id) VALUES"
   var paramString = ""
-  for (i = 0; i < courseArray.length; i++) {
-    if(i < courseArray.length-1){
-      paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${courseArray[i]}),`;
+
+  if(courseArray.length == 1){
+    courseToAdd = courseArray[0];
+    paramString = `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), '${courseToAdd}')`
+  }
+
+  else{
+    for (i = 0; i < courseArray.length; i++) {
+        if(i < courseArray.length-1){
+        paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${courseArray[i]}),`;
     }
     if(i == courseArray.length-1){
-      paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${courseArray[i]})`;
+    paramString += `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), ${courseArray[i]})`;
     }
   }
-  var coursesqlquery = sqlquery2 + paramString
+}
+
+    var coursesqlquery = sqlquery1 + paramString
 	mysql.pool.query(coursesqlquery,function(error, results, fields){
     console.log("signupUserCourses query:")
     console.log(coursesqlquery)
@@ -411,7 +438,7 @@ app.post('/editcourses', function (req, res) {
 /** Route to handle a POST request received by submitting the form to
 Edit a user's profile by adding additional skills **/
 app.post('/editskills', function (req, res) {
-  console.log ("req.body of POST to /editcourses/");
+  console.log ("req.body of POST to /editskills/");
   console.log(req.body);
   var callbackCount = 0;
   var context = {};
