@@ -30,12 +30,14 @@
   </div>
   <h2> Select your skills:</h2>
   {{#each allskills}}
-    <input type="checkbox" id="skill" name=skill value={{skill_id}}>
+  <!-- skill[] needed to send all skills in array in POST req even if only 1 selected -->
+    <input type="checkbox" id="skill" name=skill[] value={{skill_id}}>
     <label for="skillname">{{skill_name}}</label><br><br>
   {{/each}}
   <h2> Select your courses:</h2>
   {{#each allcourses}}
-    <input type="checkbox" id="course" name="course" value={{course_id}}>
+    <!-- course[] needed to send all courses in array in POST req even if only 1 selected -->
+    <input type="checkbox" id="course" name=course[] value={{course_id}}>
     <label for="coursename">{{course_name}}</label><br><br>
   {{/each}}
     <p> Upload a photo </p>
