@@ -124,7 +124,6 @@ if(skillArray.length == 1){
     skillToAdd = skillArray[0];
     paramString = `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), '${skillToAdd}')`
   }
-
   else{
     for (i = 0; i < skillArray.length; i++) {
         if(i < skillArray.length-1){
@@ -135,7 +134,6 @@ if(skillArray.length == 1){
     }
   }
 }
-
     var skillsqlquery = sqlquery1 + paramString
 	mysql.pool.query(skillsqlquery,function(error, results, fields){
     	if(error){
@@ -157,7 +155,6 @@ function signupUserCourses (res, req, mysql, context, complete){
     courseToAdd = courseArray[0];
     paramString = `((SELECT profile_id from Profiles p where p.email = '${profileEmail}'), '${courseToAdd}')`
   }
-
   else{
     for (i = 0; i < courseArray.length; i++) {
         if(i < courseArray.length-1){
@@ -291,6 +288,7 @@ app.get('/profile/all', function(req, res){
         }
 });
 
+/** Route to get detailed profile view for individual profile **/
 app.get('/profile/:id', function(req, res){
         var callbackCount = 0;
         var context = {};
@@ -306,6 +304,7 @@ app.get('/profile/:id', function(req, res){
         }
 });
 
+/** Route to get search results after completed search **/
 app.post('/search', function(req, res) {
 	var callbackCount = 0;
   	let mysql = req.app.get('mysql');
@@ -413,7 +412,7 @@ app.post('/editcourses', function (req, res) {
     function complete(){
         callbackCount++;
         if(callbackCount >= 1){
-          res.render('home.handlebars', context);
+          res.render('profilechangeconfirmation', context);
         }
       }
 });
@@ -430,7 +429,7 @@ app.post('/editskills', function (req, res) {
     function complete(){
         callbackCount++;
         if(callbackCount >= 1){
-          res.render('home.handlebars', context);
+          res.render('profilechangeconfirmation', context);
         }
       }
 });
