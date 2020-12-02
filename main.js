@@ -75,8 +75,7 @@ function getProfileSelectedCourses(res, req, mysql, context, complete){
 function signupUser (res, req, mysql, context, complete){
 	var profileArray = [req.body.firstname, req.body.lastname, req.body.email, req.body.industry, req.body.github,
 						req.body.linkedin, req.body.twitter, req.body.email];
-
-	console.log(profileArray);
+	// console.log(profileArray);
     var profileSql = "INSERT INTO Profiles (profile_pic, first_name, last_name, email, industry, github_link, linkedin_link, twitter_link) \
 						SELECT  NULL, ?, ?, ?, ?, ?, ?, ? \
 						WHERE NOT EXISTS \
@@ -84,7 +83,7 @@ function signupUser (res, req, mysql, context, complete){
     					LIMIT 1;";
     mysql.pool.query(profileSql, profileArray, function(error, results, fields){
     	if(error){
-    		console.log(profileSql);
+    		// console.log(profileSql);
     		res.write(JSON.stringify(error));
     		res.end();
     	}
@@ -98,12 +97,12 @@ function duplicateEmailFound(res, req, mysql, context, complete){
     var emailSQL = "SELECT profile_id from Profiles WHERE email=?;";
     mysql.pool.query(emailSQL, emailSearch, function(error, results, fields){
     	if(error){
-    		console.log(profileSql);
+    		// console.log(profileSql);
     		res.write(JSON.stringify(error));
     		res.end();
     	}
-      console.log("Here are results from IdFromEmail:")
-      console.log(results);
+      // console.log("Here are results from IdFromEmail:")
+      // console.log(results);
       if (results.length > 0) {
         return true;
       }
@@ -167,8 +166,8 @@ function signupUserCourses (res, req, mysql, context, complete){
 }
     var coursesqlquery = sqlquery1 + paramString
 	mysql.pool.query(coursesqlquery,function(error, results, fields){
-    console.log("signupUserCourses query:")
-    console.log(coursesqlquery)
+    // console.log("signupUserCourses query:")
+    // console.log(coursesqlquery)
     	if(error){
     		res.write(JSON.stringify(error));
     		res.end();
@@ -238,8 +237,8 @@ function getSkillsAvailableToAdd(res, req, mysql, context, complete){
             res.end();
       }
         context.availableSkills = results;
-        console.log("context.skillsAvailable:")
-        console.log(context.availableSkills)
+        // console.log("context.skillsAvailable:")
+        // console.log(context.availableSkills)
              complete();
     });
 }
@@ -259,8 +258,8 @@ function getCoursesAvailableToAdd(res, req, mysql, context, complete){
             res.end();
       }
         context.availableCourses = results;
-        console.log("context.availableCourses:")
-        console.log(context.availableCourses)
+        // console.log("context.availableCourses:")
+        // console.log(context.availableCourses)
              complete();
     });
 }
@@ -337,7 +336,7 @@ app.get('/signup', function(req, res) {
 
 /** Route to handle submission of signup form **/
 app.post('/signup', function(req, res) {
-  console.log(req.body);
+  // console.log(req.body);
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
@@ -403,8 +402,8 @@ app.get('/editcourses/:id', function (req, res) {
 /** Route to handle a POST request received by submitting the form to
 Edit a user's profile by adding additional courses **/
 app.post('/editcourses', function (req, res) {
-  console.log ("req.body of POST to /editcourses/");
-  console.log(req.body);
+  // console.log ("req.body of POST to /editcourses/");
+  // console.log(req.body);
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
@@ -420,8 +419,8 @@ app.post('/editcourses', function (req, res) {
 /** Route to handle a POST request received by submitting the form to
 Edit a user's profile by adding additional skills **/
 app.post('/editskills', function (req, res) {
-  console.log ("req.body of POST to /editskills/");
-  console.log(req.body);
+  // console.log ("req.body of POST to /editskills/");
+  // console.log(req.body);
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
