@@ -17,11 +17,6 @@ app.set('view engine', 'handlebars');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-/** For use in future sprints to refactor to use Router **/
-//app.use('/', express.static('public'));
-//app.use('/static', express.static('public'));
-//app.use('/profile', require('./routes/profile.js'));
-
 /** Get all Expert Profiles  **/
 function getProfileAll(res, mysql, context, complete){
      mysql.pool.query("SELECT profile_id as profile_id, first_name as first_name, last_name as last_name, email as email, industry as industry, github_link as github_link, linkedin_link as linkedin_link, twitter_link as twitter_link FROM Profiles", function(error, results, fields){
@@ -122,18 +117,8 @@ function duplicateEmailFound(res, req, mysql, context, complete){
 function signupUserSkills (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var skillArray = req.body.skill;
-//	var sqlArray = [profileEmail, skillArray];
   var sqlquery1 = "INSERT INTO Profiles_Skills (profile_id, skill_id) VALUES"
   var paramString = ""
-
-// console.log ("skillArray[0]:")
-// console.log (skillArray[0]);
-// console.log("length of skill array:")
-// console.log(skillArray.length)
-// console.log("skillArray")
-// console.log(skillArray)
-
-
 
 if(skillArray.length == 1){
     skillToAdd = skillArray[0];
@@ -165,7 +150,6 @@ if(skillArray.length == 1){
 function signupUserCourses (res, req, mysql, context, complete){
 	var profileEmail = req.body.email;
 	var courseArray = req.body.course;
-	// var sqlArray = [profileEmail, courseArray];
   var sqlquery1 = "INSERT INTO Profiles_Courses (profile_id, course_id) VALUES"
   var paramString = ""
 
@@ -184,7 +168,6 @@ function signupUserCourses (res, req, mysql, context, complete){
     }
   }
 }
-
     var coursesqlquery = sqlquery1 + paramString
 	mysql.pool.query(coursesqlquery,function(error, results, fields){
     console.log("signupUserCourses query:")

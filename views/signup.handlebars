@@ -1,108 +1,46 @@
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
-<style>
-.signup-form {
-  padding-top: 25px;
-  padding-bottom: 30px;
-}
-</style>
-
-<div class="container">
-<h2 class="mt-5"> Enter your details:</h2>
-</div>
-<form class="form-horizontal" action="/signup" method="POST">
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="firstname">First name: </label>
-    <input class="form-control" type="text" placeholder="Enter your first name" name="firstname" id="firstname" required>
+<h1> Enter signup details</h1>
+<form action="/signup" method="POST">
+  <div>
+    <label for="firstname">Enter your first name: </label>
+    <input type="text" name="firstname" id="firstname" required>
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="lastname">Last name: </label>
-    <input class="form-control" type="text" placeholder="Enter your last name" name="lastname" id="lastname" required>
+  <div>
+    <label for="lastname">Enter your last name: </label>
+    <input type="text" name="lastname" id="lastname" required>
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="email">Email: </label>
-    <input class="form-control" type="email" placeholder="Enter your email" name="email" id="email" required>
+  <div>
+    <label for="email">Enter your email: </label>
+    <input type="email" name="email" id="email" required>
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="industry">Industry: </label>
-    <input class="form-control" type="text" placeholder="Enter your industry"  name="industry" id="industry" required>
+  <div>
+    <label for="industry">Enter your industry: </label>
+    <input type="text" name="industry" id="industry" required>
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="github">GitHub link: </label>
-    <input class="form-control" type="text" placeholder="Enter your GitHub link"  name="github" id="github">
+  <div>
+    <label for="github">Enter your GitHub link: </label>
+    <input type="text" name="github" id="github">
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="linkedin">LinkedIn link: </label>
-    <input class="form-control" type="text" placeholder="Enter your LinkedIn link" name="linkedin" id="linkedin">
+  <div>
+    <label for="linkedin">Enter your LinkedIn link: </label>
+    <input type="text" name="linkedin" id="linkedin">
   </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="twitter">Twitter link: </label>
-    <input class="form-control" type="text" placeholder="Enter your Twitter link" name="twitter" id="twitter">
+  <div>
+    <label for="twitter">Enter your Twitter link: </label>
+    <input type="text" name="twitter" id="twitter">
   </div>
-  <h2 class="container"> Select your skills:</h2>
+  <h2> Select your skills:</h2>
   {{#each allskills}}
     <input type="checkbox" id="skill" name=skill value={{skill_id}}>
     <label for="skillname">{{skill_name}}</label><br><br>
   {{/each}}
-  <!-- <div>
-    <p>Select your skills:</p>
-    <input type="checkbox" id="Python" name="Python" value="Python">
-    <label for="Python"> Python</label><br>
-    <input type="checkbox" id="C++" name="C++" value="C++">
-    <label for="C++"> C++</label><br>
-    <input type="checkbox" id="Javascript" name="Javascript" value="Javascript">
-    <label for="Javascript"> Javascript</label><br>
-    <input type="checkbox" id="Node.js" name="Node.js" value="Node.js">
-    <label for="Node.js"> Node.js</label><br>
-    <input type="checkbox" id="C" name="C" value="C">
-    <label for="C"> C</label><br>
-    <input type="checkbox" id="HTML" name="HTML" value="HTML">
-    <label for="HTML"> HTML</label><br>
-    <input type="checkbox" id="CSS" name="CSS" value="CSS">
-    <label for="CSS"> CSS</label><br>
-    <input type="checkbox" id="React" name="React" value="React">
-    <label for="React"> React</label><br><br>
-  </div> -->
-  <h2 class="container"> Select your courses:</h2>
+  <h2> Select your courses:</h2>
   {{#each allcourses}}
-    <!-- <ul>
-      <li>{{course_name}}</li>
-    </ul> -->
     <input type="checkbox" id="course" name="course" value={{course_id}}>
     <label for="coursename">{{course_name}}</label><br><br>
   {{/each}}
-  <!-- <div>
-    <p>Select your courses:</p>
-    <input type="checkbox" id="CS161" name="CS161" value="CS161">
-    <label for="CS161"> CS161</label><br>
-    <input type="checkbox" id="CS162" name="CS162" value="CS162">
-    <label for="CS162"> CS162</label><br>
-    <input type="checkbox" id="CS225" name="CS225" value="CS225">
-    <label for="CS225"> CS225</label><br>
-    <input type="checkbox" id="CS261" name="CS261" value="CS261">
-    <label for="CS261"> CS261</label><br>
-    <input type="checkbox" id="CS271" name="CS271" value="CS271">
-    <label for="CS271"> CS271</label><br>
-    <input type="checkbox" id="CS290" name="CS290" value="CS290">
-    <label for="CS290"> CS290</label><br>
-    <input type="checkbox" id="CS325" name="CS325" value="CS325">
-    <label for="CS325"> CS325</label><br>
-    <input type="checkbox" id="CS340" name="CS340" value="CS340">
-    <label for="CS340"> CS340</label><br>
-    <input type="checkbox" id="CS344" name="CS344" value="CS344">
-    <label for="CS344"> CS344</label><br>
-    <input type="checkbox" id="CS361" name="CS361" value="CS361">
-    <label for="CS361"> CS361</label><br>
-    <input type="checkbox" id="CS362" name="CS362" value="CS362">
-    <label for="CS362"> CS362</label><br>
-    <input type="checkbox" id="CS467" name="CS467" value="CS467">
-    <label for="CS467"> CS467</label><br><br> -->
-    <h2 class="container"> Upload a photo:</h2>
+    <p> Upload a photo </p>
     <input type="file" id="profilepic" name="profilepic">
   <div class="signup-form">
-    <input type="submit" class="btn btn-primary btn-block" value="Sign Up">
+    <input type="submit" value="Sign Up">
   </div>
 </form>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
