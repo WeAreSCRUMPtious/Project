@@ -1,48 +1,82 @@
-<h1> Enter signup details</h1>
-<form action="/signup" method="POST">
-  <div>
-    <label for="firstname">Enter your first name: </label>
-    <input type="text" name="firstname" id="firstname" required>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<style>
+h2 {
+  color: #007bff;
+}
+
+
+.signup-form {
+  padding-top: 25px;
+  padding-bottom: 30px;
+}
+</style>
+
+<div class="container">
+<h2 class="mt-5"> Enter your details:</h2>
+</div>
+<form class="form-horizontal" action="/signup" method="POST">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="firstname">First name: </label>
+    <input class="form-control" type="text" placeholder="Enter your first name" name="firstname" id="firstname" required>
   </div>
-  <div>
-    <label for="lastname">Enter your last name: </label>
-    <input type="text" name="lastname" id="lastname" required>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="lastname">Last name: </label>
+    <input class="form-control" type="text" placeholder="Enter your last name" name="lastname" id="lastname" required>
   </div>
-  <div>
-    <label for="email">Enter your email: </label>
-    <input type="email" name="email" id="email" required>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="email">Email: </label>
+    <input class="form-control" type="email" placeholder="Enter your email" name="email" id="email" required>
   </div>
-  <div>
-    <label for="industry">Enter your industry: </label>
-    <input type="text" name="industry" id="industry" required>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="industry">Industry: </label>
+    <input class="form-control" type="text" placeholder="Enter your industry"  name="industry" id="industry" required>
   </div>
-  <div>
-    <label for="github">Enter your GitHub link: </label>
-    <input type="text" name="github" id="github">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="github">GitHub link: </label>
+    <input class="form-control" type="text" placeholder="Enter your GitHub link"  name="github" id="github">
   </div>
-  <div>
-    <label for="linkedin">Enter your LinkedIn link: </label>
-    <input type="text" name="linkedin" id="linkedin">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="linkedin">LinkedIn link: </label>
+    <input class="form-control" type="text" placeholder="Enter your LinkedIn link" name="linkedin" id="linkedin">
   </div>
-  <div>
-    <label for="twitter">Enter your Twitter link: </label>
-    <input type="text" name="twitter" id="twitter">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="twitter">Twitter link: </label>
+    <input class="form-control" type="text" placeholder="Enter your Twitter link" name="twitter" id="twitter">
   </div>
-  <h2> Select your skills:</h2>
-  {{#each allskills}}
-  <!-- skill[] needed to send all skills in array in POST req even if only 1 selected -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h2 class="container"> Select your skills:</h2>
+        {{#each allskills}}
+    <!-- skill[] needed to send all skills in array in POST req even if only 1 selected -->
     <input type="checkbox" id="skill" name=skill[] value={{skill_id}}>
-    <label for="skillname">{{skill_name}}</label><br><br>
-  {{/each}}
-  <h2> Select your courses:</h2>
-  {{#each allcourses}}
-    <!-- course[] needed to send all courses in array in POST req even if only 1 selected -->
-    <input type="checkbox" id="course" name=course[] value={{course_id}}>
-    <label for="coursename">{{course_name}}</label><br><br>
-  {{/each}}
-    <p> Upload a photo </p>
-    <input type="file" id="profilepic" name="profilepic">
+          <label for="skillname">{{skill_name}}</label><br><br>
+        {{/each}}
+      </div>
+      <div class="col-sm-4">
+        <h2 class="container"> Select your courses:</h2>
+        {{#each allcourses}}
+          <!-- <ul>
+            <li>{{course_name}}</li>
+          </ul> -->
+           <!-- course[] needed to send all courses in array in POST req even if only 1 selected -->
+         <input type="checkbox" id="course" name=course[] value={{course_id}}>
+          <label for="coursename">{{course_name}}</label><br><br>
+        {{/each}}
+      </div>
+      <div class="col-sm-4">
+        <h2 class="container"> Upload a photo:</h2>
+        <input type="file" id="profilepic" name="profilepic">
+      </div>
+    </div>
+  </div>
+
   <div class="signup-form">
-    <input type="submit" value="Sign Up">
+    <input type="submit" class="btn btn-primary btn-block" value="Sign Up">
   </div>
 </form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>

@@ -91,6 +91,25 @@ function signupUser (res, req, mysql, context, complete){
     });
 }
 
+/** Updates user profile details **/
+function editUser(res, req, mysql, context, complete) {
+  var newDetails = [req.body.firstname, req.body.lastname, req.body.email, req.body.industry,
+                    req.body.github, req.body.linkedin, req.body.twitter, req.params.id];
+  
+  var updateSql = "UPDATE Profiles \
+                   SET first_name = ?, last_name = ?, email = ?, industry = ?, github_link = ?, linkedin_link = ?, twitter_link = ? \
+                   WHERE profile_id = ?;";
+
+  mysql.pool.query(updateSql, newDetails, function(error, results, fields) {
+    if(error) {
+      console.log(updateSql);
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    complete();
+  });
+}
+
 /** Check that email address is alrady prsesent in Profiles table and return True if found **/
 function duplicateEmailFound(res, req, mysql, context, complete){
 	var emailSearch = req.body.email;
@@ -301,6 +320,36 @@ app.get('/profile/:id', function(req, res){
               res.render('profiledetail', context);
             }
         }
+});
+
+/** Route to edit form of a profile **/
+app.get('/editprofile/:id', function(req, res){
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  getProfileSelectedDetails(res, req, mysql, context, complete);
+  function complete(){
+    callbackCount++;
+    if(callbackCount >= 1){
+      res.render('editprofile', context);
+    }
+  }
+});
+
+/** Route to submit profile changes from edit form **/
+app.post('/submitprofilechange/:id', function(req, res) {
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+
+  editUser(res, req, mysql, context, complete);
+  
+  function complete() {
+    callbackCount++;
+    if(callbackCount >= 1) {
+      res.render('profilechangeconfirmation', context);
+    }
+  }
 });
 
 /** Route to get search results after completed search **/

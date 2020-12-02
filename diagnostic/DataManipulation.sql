@@ -28,6 +28,11 @@ INSERT INTO Courses (course_name)
     WHERE NOT EXISTS
     (SELECT * FROM Courses WHERE course_name = '{course}');
 
+-- Update Profile Data
+UPDATE Profiles
+SET first_name = ?, last_name = ?, email = ?, industry = ?, github_link = ?, linkedin_link = ?, twitter_link = ? 
+WHERE profile_id = ?;
+
 -- Show Full Profile Data
 SELECT * FROM Profiles_Skills PS
     INNER JOIN Profiles P on PS.profile_id = P.profile_id
